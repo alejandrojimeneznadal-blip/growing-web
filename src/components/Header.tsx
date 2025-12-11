@@ -8,34 +8,34 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinks = [
-    { href: "#servicios", label: "Servicios" },
-    { href: "#comunidad", label: "Comunidad" },
-    { href: "#testimonios", label: "Testimonios" },
+    { href: "#servicios", label: "LO QUE HACEMOS" },
+    { href: "#comunidad", label: "COMUNIDAD" },
+    { href: "#testimonios", label: "TESTIMONIOS" },
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
             <Image
               src="/images/logo-horizontal-clean.svg"
               alt="Growing Inmobiliario"
-              width={160}
-              height={32}
-              className="h-8 w-auto"
+              width={140}
+              height={28}
+              className="h-7 w-auto"
               priority
             />
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          {/* Desktop Navigation - Centered */}
+          <nav className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-gray-600 hover:text-[#101820] text-sm font-medium transition-colors"
+                className="text-[#101820] text-xs font-medium tracking-wider hover:opacity-60 transition-opacity"
               >
                 {link.label}
               </Link>
@@ -46,9 +46,9 @@ export default function Header() {
           <div className="hidden md:block">
             <Link
               href="#contacto"
-              className="bg-[#101820] hover:bg-[#00758d] text-white px-5 py-2.5 rounded-full text-sm font-medium transition-colors"
+              className="bg-[#101820] text-white px-6 py-3 text-xs font-medium tracking-wider hover:bg-[#00abc8] transition-colors"
             >
-              Contactar
+              AGENDAR REUNIÓN
             </Link>
           </div>
 
@@ -59,7 +59,7 @@ export default function Header() {
             aria-label="Abrir menú"
           >
             <svg
-              className="w-5 h-5 text-[#101820]"
+              className="w-6 h-6 text-[#101820]"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -85,13 +85,13 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-100">
-            <nav className="flex flex-col gap-1">
+          <div className="md:hidden py-6 border-t border-gray-100">
+            <nav className="flex flex-col gap-4">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-gray-600 hover:text-[#101820] text-sm font-medium transition-colors py-3 px-2 rounded-lg hover:bg-gray-50"
+                  className="text-[#101820] text-xs font-medium tracking-wider py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.label}
@@ -99,10 +99,10 @@ export default function Header() {
               ))}
               <Link
                 href="#contacto"
-                className="bg-[#101820] hover:bg-[#00758d] text-white px-5 py-3 rounded-full text-sm font-medium transition-colors text-center mt-4"
+                className="bg-[#101820] text-white px-6 py-4 text-xs font-medium tracking-wider text-center mt-4 hover:bg-[#00abc8] transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Contactar
+                AGENDAR REUNIÓN
               </Link>
             </nav>
           </div>

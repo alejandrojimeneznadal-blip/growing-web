@@ -1,64 +1,93 @@
+"use client";
+
 import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="min-h-screen flex items-center pt-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-[#00abc8]/5 border border-[#00abc8]/20 px-4 py-2 rounded-full text-[#00758d] text-sm font-medium mb-8">
-            <span className="w-1.5 h-1.5 bg-[#00abc8] rounded-full" />
-            +150 inmobiliarias en España
-          </div>
-
-          {/* Main headline */}
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#101820] leading-[1.1] tracking-tight mb-8">
-            Hacemos crecer
-            <br />
-            <span className="text-[#00abc8]">inmobiliarias</span>
-          </h1>
-
-          {/* Subheadline */}
-          <p className="text-xl text-gray-500 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Consultoría, formación y la comunidad más activa del sector inmobiliario en España.
+    <section className="min-h-screen flex flex-col justify-center pt-20 bg-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
+        {/* Main headline */}
+        <div className="max-w-5xl">
+          <p className="text-sm font-medium tracking-wider text-gray-400 mb-6">
+            CONSULTORÍA INMOBILIARIA
           </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="#contacto"
-              className="bg-[#101820] hover:bg-[#00758d] text-white px-8 py-4 rounded-full font-medium text-lg transition-all"
-            >
-              Empezar ahora
-            </Link>
-            <Link
-              href="#servicios"
-              className="text-[#101820] hover:text-[#00758d] px-8 py-4 rounded-full font-medium text-lg transition-all border border-gray-200 hover:border-[#00758d]"
-            >
-              Ver servicios
-            </Link>
-          </div>
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-[#101820] leading-[1.05] tracking-tight">
+            A un paso de hacer
+            <br />
+            <span className="text-[#00abc8]">crecer tu negocio</span>
+          </h1>
         </div>
 
-        {/* Stats row */}
-        <div className="mt-24 pt-12 border-t border-gray-100">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-            {[
-              { value: "+150", label: "Inmobiliarias" },
-              { value: "+5", label: "Años experiencia" },
-              { value: "100%", label: "España" },
-              { value: "4.9★", label: "Trustpilot" },
-            ].map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-[#101820] mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-gray-400 uppercase tracking-wider">
-                  {stat.label}
-                </div>
+        {/* Subheadline */}
+        <div className="mt-12 max-w-2xl">
+          <p className="text-lg sm:text-xl text-gray-500 leading-relaxed">
+            Ayudamos a inmobiliarias a multiplicar sus resultados con estrategia,
+            formación y una comunidad de más de 150 agencias en toda España.
+          </p>
+        </div>
+
+        {/* CTA */}
+        <div className="mt-12 flex flex-col sm:flex-row gap-4">
+          <Link
+            href="#contacto"
+            className="inline-flex items-center justify-center bg-[#101820] text-white px-8 py-4 text-sm font-medium tracking-wider hover:bg-[#00abc8] transition-colors"
+          >
+            AGENDAR REUNIÓN
+          </Link>
+          <Link
+            href="#servicios"
+            className="inline-flex items-center justify-center border-2 border-[#101820] text-[#101820] px-8 py-4 text-sm font-medium tracking-wider hover:bg-[#101820] hover:text-white transition-colors"
+          >
+            VER SERVICIOS
+          </Link>
+        </div>
+      </div>
+
+      {/* Marquee */}
+      <div className="border-t border-b border-gray-100 py-6 overflow-hidden">
+        <div className="animate-marquee whitespace-nowrap flex">
+          {[...Array(2)].map((_, i) => (
+            <div key={i} className="flex items-center gap-8 mx-8">
+              {[
+                "CONSULTORÍA",
+                "FORMACIÓN",
+                "NETWORKING",
+                "COMUNIDAD",
+                "ESTRATEGIA",
+                "CRECIMIENTO",
+                "RESULTADOS",
+              ].map((word, index) => (
+                <span
+                  key={index}
+                  className="text-2xl sm:text-3xl font-bold text-gray-200 flex items-center gap-8"
+                >
+                  {word}
+                  <span className="w-2 h-2 bg-[#00abc8] rounded-full" />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Stats row */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16">
+          {[
+            { value: "+150", label: "Inmobiliarias" },
+            { value: "+5", label: "Años experiencia" },
+            { value: "100%", label: "Cobertura nacional" },
+            { value: "4.9", label: "Trustpilot" },
+          ].map((stat, index) => (
+            <div key={index} className="text-center md:text-left">
+              <div className="text-4xl sm:text-5xl font-bold text-[#101820]">
+                {stat.value}
               </div>
-            ))}
-          </div>
+              <div className="text-sm text-gray-400 mt-1 tracking-wider">
+                {stat.label.toUpperCase()}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

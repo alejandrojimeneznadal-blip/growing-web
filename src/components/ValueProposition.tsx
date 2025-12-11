@@ -1,62 +1,60 @@
-const values = [
-  {
-    number: "01",
-    title: "Comunidad",
-    description: "Red exclusiva de inmobiliarias. Comparte, aprende y crece con profesionales de toda España.",
-  },
-  {
-    number: "02",
-    title: "Formación",
-    description: "Programas diseñados para equipos que quieren resultados. Metodología práctica y aplicable.",
-  },
-  {
-    number: "03",
-    title: "Consultoría",
-    description: "Análisis personalizado de tu negocio. Identificamos oportunidades y diseñamos estrategias.",
-  },
-];
+import Link from "next/link";
 
 export default function ValueProposition() {
   return (
-    <section className="py-32 bg-[#fafafa]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Left side - Text */}
-          <div className="lg:sticky lg:top-32">
-            <p className="text-[#00abc8] text-sm font-medium uppercase tracking-wider mb-4">
-              Por qué Growing
-            </p>
-            <h2 className="text-4xl sm:text-5xl font-bold text-[#101820] leading-tight mb-6">
-              Todo lo que tu inmobiliaria necesita para crecer
-            </h2>
-            <p className="text-lg text-gray-500 leading-relaxed">
-              No somos una consultoría más. Somos tu partner estratégico con una comunidad activa que te respalda.
-            </p>
-          </div>
+    <section className="py-32 bg-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        {/* Big statement */}
+        <div className="max-w-5xl">
+          <p className="text-sm font-medium tracking-wider text-gray-400 mb-6">
+            POR QUÉ GROWING
+          </p>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#101820] leading-tight">
+            No somos una consultoría más.
+            <br />
+            <span className="text-gray-300">Somos tu partner estratégico.</span>
+          </h2>
+        </div>
 
-          {/* Right side - Cards */}
-          <div className="space-y-6">
-            {values.map((value) => (
-              <div
-                key={value.number}
-                className="group p-8 bg-white rounded-2xl border border-gray-100 hover:border-[#00abc8]/30 hover:shadow-lg hover:shadow-[#00abc8]/5 transition-all duration-300"
-              >
-                <div className="flex items-start gap-6">
-                  <span className="text-5xl font-bold text-gray-100 group-hover:text-[#00abc8]/20 transition-colors">
-                    {value.number}
-                  </span>
-                  <div>
-                    <h3 className="text-xl font-semibold text-[#101820] mb-2">
-                      {value.title}
-                    </h3>
-                    <p className="text-gray-500 leading-relaxed">
-                      {value.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Three pillars */}
+        <div className="mt-24 grid md:grid-cols-3 gap-12 md:gap-8">
+          {[
+            {
+              title: "Comunidad",
+              description: "Red exclusiva de +150 inmobiliarias. Comparte, aprende y crece con los mejores profesionales del sector.",
+            },
+            {
+              title: "Formación",
+              description: "Programas diseñados para equipos que quieren resultados. Metodología práctica y 100% aplicable.",
+            },
+            {
+              title: "Consultoría",
+              description: "Análisis personalizado de tu negocio. Identificamos oportunidades y diseñamos estrategias ganadoras.",
+            },
+          ].map((item, index) => (
+            <div key={index} className="group">
+              <div className="h-px bg-gray-200 group-hover:bg-[#00abc8] transition-colors mb-8" />
+              <h3 className="text-2xl font-bold text-[#101820] mb-4">
+                {item.title}
+              </h3>
+              <p className="text-gray-500 leading-relaxed">
+                {item.description}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div className="mt-20 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+          <Link
+            href="#contacto"
+            className="bg-[#101820] text-white px-8 py-4 text-sm font-medium tracking-wider hover:bg-[#00abc8] transition-colors"
+          >
+            QUIERO SABER MÁS
+          </Link>
+          <span className="text-sm text-gray-400">
+            Primera consulta sin compromiso
+          </span>
         </div>
       </div>
     </section>
