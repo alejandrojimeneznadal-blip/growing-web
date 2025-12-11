@@ -8,7 +8,7 @@ export default function ContactForm() {
     email: "",
     phone: "",
     company: "",
-    message: "",
+    employees: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -25,18 +25,21 @@ export default function ContactForm() {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   if (isSubmitted) {
     return (
-      <section id="contacto" className="py-32 bg-white">
-        <div className="max-w-2xl mx-auto px-6 lg:px-8 text-center">
-          <div className="w-16 h-16 bg-[#00abc8] flex items-center justify-center mx-auto mb-8">
+      <section id="contacto" className="section-padding bg-gradient-to-br from-[#0a2540] to-[#0f3052] relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#00abc8] rounded-full filter blur-[200px] opacity-20" />
+        </div>
+        <div className="relative z-10 max-w-2xl mx-auto px-6 lg:px-8 text-center">
+          <div className="w-20 h-20 bg-gradient-to-br from-[#00abc8] to-[#667eea] rounded-full flex items-center justify-center mx-auto mb-8">
             <svg
-              className="w-8 h-8 text-white"
+              className="w-10 h-10 text-white"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -49,12 +52,12 @@ export default function ContactForm() {
               />
             </svg>
           </div>
-          <h3 className="text-3xl font-bold text-[#101820] mb-4">
-            Gracias por contactarnos
+          <h3 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+            Solicitud recibida
           </h3>
-          <p className="text-gray-500 text-lg">
-            Hemos recibido tu solicitud. Un miembro de nuestro equipo se pondrá
-            en contacto contigo en las próximas 24 horas.
+          <p className="text-xl text-white/60">
+            Revisaremos tu aplicación y te contactaremos en las próximas 24-48
+            horas para agendar una llamada de descubrimiento.
           </p>
         </div>
       </section>
@@ -62,37 +65,53 @@ export default function ContactForm() {
   }
 
   return (
-    <section id="contacto" className="py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        {/* Header */}
-        <div className="max-w-3xl mb-20">
-          <p className="text-sm font-medium tracking-wider text-gray-400 mb-6">
-            CONTACTO
-          </p>
-          <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-medium text-[#101820] leading-tight italic">
-            ¿Listo para hacer crecer tu inmobiliaria?
-          </h2>
-        </div>
+    <section id="contacto" className="section-padding bg-gradient-to-br from-[#0a2540] to-[#0f3052] relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#00abc8] rounded-full filter blur-[200px] opacity-20" />
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-[#667eea] rounded-full filter blur-[200px] opacity-10" />
+      </div>
 
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
-          {/* Left - Info */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          {/* Left - Content */}
           <div>
-            <p className="text-xl text-gray-500 leading-relaxed mb-12">
-              Déjanos tus datos y un miembro de nuestro equipo se pondrá en
-              contacto contigo para explicarte cómo podemos ayudarte.
+            <p className="text-sm font-semibold tracking-wider text-[#00abc8] mb-4 uppercase">
+              Da el siguiente paso
+            </p>
+            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-medium text-white leading-tight italic mb-6">
+              ¿Listo para escalar tu inmobiliaria?
+            </h2>
+            <p className="text-xl text-white/60 leading-relaxed mb-10">
+              Completa el formulario y descubre si cualificas para trabajar con
+              nosotros. Sin compromiso.
             </p>
 
-            <div className="space-y-8">
+            {/* Benefits */}
+            <div className="space-y-6">
               {[
-                { title: "Respuesta rápida", subtitle: "Te contactamos en menos de 24h" },
-                { title: "Sin compromiso", subtitle: "Consulta gratuita inicial" },
-                { title: "Atención personalizada", subtitle: "Adaptada a tu inmobiliaria" },
+                {
+                  title: "Llamada de descubrimiento",
+                  description: "30 minutos para entender tu negocio y objetivos",
+                },
+                {
+                  title: "Plan personalizado",
+                  description: "Estrategia adaptada a tu situación actual",
+                },
+                {
+                  title: "Sin compromiso",
+                  description: "Decide si somos el partner adecuado para ti",
+                },
               ].map((item, index) => (
                 <div key={index} className="flex items-start gap-4">
-                  <span className="w-2 h-2 bg-[#00abc8] rounded-full mt-2 flex-shrink-0" />
+                  <div className="flex-shrink-0 w-10 h-10 bg-[#00abc8]/20 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-[#00abc8]" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
                   <div>
-                    <div className="font-medium text-[#101820] mb-1">{item.title}</div>
-                    <div className="text-gray-400">{item.subtitle}</div>
+                    <div className="font-semibold text-white mb-1">{item.title}</div>
+                    <div className="text-white/50">{item.description}</div>
                   </div>
                 </div>
               ))}
@@ -100,141 +119,157 @@ export default function ContactForm() {
           </div>
 
           {/* Right - Form */}
-          <div>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-xs font-medium tracking-wider text-gray-400 mb-3"
-                  >
-                    NOMBRE COMPLETO
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full px-0 py-3 bg-transparent border-0 border-b border-gray-200 focus:ring-0 focus:border-[#101820] transition-colors"
-                    placeholder="Tu nombre"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-xs font-medium tracking-wider text-gray-400 mb-3"
-                  >
-                    EMAIL
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full px-0 py-3 bg-transparent border-0 border-b border-gray-200 focus:ring-0 focus:border-[#101820] transition-colors"
-                    placeholder="tu@email.com"
-                  />
-                </div>
-              </div>
+          <div className="bg-white p-8 lg:p-10 shadow-2xl">
+            <div className="mb-8">
+              <h3 className="text-2xl font-bold text-[#0a2540] mb-2">
+                Comprueba si cualificas
+              </h3>
+              <p className="text-gray-500">
+                Solo trabajamos con inmobiliarias comprometidas con su crecimiento.
+              </p>
+            </div>
 
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-xs font-medium tracking-wider text-gray-400 mb-3"
-                  >
-                    TELÉFONO
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    required
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full px-0 py-3 bg-transparent border-0 border-b border-gray-200 focus:ring-0 focus:border-[#101820] transition-colors"
-                    placeholder="+34 600 000 000"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="company"
-                    className="block text-xs font-medium tracking-wider text-gray-400 mb-3"
-                  >
-                    TU INMOBILIARIA
-                  </label>
-                  <input
-                    type="text"
-                    id="company"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleChange}
-                    className="w-full px-0 py-3 bg-transparent border-0 border-b border-gray-200 focus:ring-0 focus:border-[#101820] transition-colors"
-                    placeholder="Nombre de tu agencia"
-                  />
-                </div>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-[#0a2540] mb-2"
+                >
+                  Nombre completo
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-[#00abc8] focus:border-transparent transition-all"
+                  placeholder="Tu nombre"
+                />
               </div>
 
               <div>
                 <label
-                  htmlFor="message"
-                  className="block text-xs font-medium tracking-wider text-gray-400 mb-3"
+                  htmlFor="email"
+                  className="block text-sm font-medium text-[#0a2540] mb-2"
                 >
-                  MENSAJE
+                  Email
                 </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={4}
-                  value={formData.message}
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-0 py-3 bg-transparent border-0 border-b border-gray-200 focus:ring-0 focus:border-[#101820] transition-colors resize-none"
-                  placeholder="Cuéntanos sobre tu inmobiliaria y tus objetivos..."
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-[#00abc8] focus:border-transparent transition-all"
+                  placeholder="tu@email.com"
                 />
               </div>
 
-              <div className="pt-6">
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full sm:w-auto bg-[#101820] hover:bg-[#00abc8] disabled:bg-gray-300 text-white px-12 py-4 text-sm font-medium tracking-wider transition-colors"
+              <div>
+                <label
+                  htmlFor="phone"
+                  className="block text-sm font-medium text-[#0a2540] mb-2"
                 >
-                  {isSubmitting ? (
-                    <span className="flex items-center justify-center gap-2">
-                      <svg
-                        className="animate-spin w-5 h-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        />
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        />
-                      </svg>
-                      ENVIANDO...
-                    </span>
-                  ) : (
-                    "ENVIAR MENSAJE"
-                  )}
-                </button>
+                  Teléfono
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  required
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-[#00abc8] focus:border-transparent transition-all"
+                  placeholder="+34 600 000 000"
+                />
               </div>
 
-              <p className="text-xs text-gray-400 pt-4">
-                Al enviar este formulario, aceptas nuestra{" "}
-                <a href="/privacidad" className="text-[#101820] hover:text-[#00abc8] transition-colors">
+              <div>
+                <label
+                  htmlFor="company"
+                  className="block text-sm font-medium text-[#0a2540] mb-2"
+                >
+                  Nombre de tu inmobiliaria
+                </label>
+                <input
+                  type="text"
+                  id="company"
+                  name="company"
+                  required
+                  value={formData.company}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-[#00abc8] focus:border-transparent transition-all"
+                  placeholder="Tu agencia inmobiliaria"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="employees"
+                  className="block text-sm font-medium text-[#0a2540] mb-2"
+                >
+                  Tamaño de tu equipo
+                </label>
+                <select
+                  id="employees"
+                  name="employees"
+                  required
+                  value={formData.employees}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-[#00abc8] focus:border-transparent transition-all"
+                >
+                  <option value="">Selecciona una opción</option>
+                  <option value="solo">Solo yo</option>
+                  <option value="2-5">2-5 personas</option>
+                  <option value="6-10">6-10 personas</option>
+                  <option value="11+">Más de 10 personas</option>
+                </select>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-[#0a2540] hover:bg-[#00abc8] disabled:bg-gray-300 text-white py-4 font-medium transition-colors flex items-center justify-center gap-2 group"
+              >
+                {isSubmitting ? (
+                  <>
+                    <svg
+                      className="animate-spin w-5 h-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
+                    </svg>
+                    Enviando...
+                  </>
+                ) : (
+                  <>
+                    Comprobar si cualifico
+                    <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </>
+                )}
+              </button>
+
+              <p className="text-xs text-gray-400 text-center pt-2">
+                Al enviar, aceptas nuestra{" "}
+                <a href="/privacidad" className="text-[#00abc8] hover:underline">
                   política de privacidad
                 </a>
               </p>

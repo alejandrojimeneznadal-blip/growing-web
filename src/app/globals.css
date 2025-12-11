@@ -1,79 +1,450 @@
 @import "tailwindcss";
 
+/* ===== CUSTOM FONTS ===== */
+@font-face {
+  font-family: 'Times CE';
+  src: url('/fonts/Times CE Roman.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Times CE';
+  src: url('/fonts/Times CE Italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Times CE';
+  src: url('/fonts/Times CE Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Times CE';
+  src: url('/fonts/Times CE Bold Italic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alexandria';
+  src: url('/fonts/Alexandria-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alexandria';
+  src: url('/fonts/Alexandria-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alexandria';
+  src: url('/fonts/Alexandria-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alexandria';
+  src: url('/fonts/Alexandria-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alexandria';
+  src: url('/fonts/Alexandria-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alexandria';
+  src: url('/fonts/Alexandria-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alexandria';
+  src: url('/fonts/Alexandria-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alexandria';
+  src: url('/fonts/Alexandria-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alexandria';
+  src: url('/fonts/Alexandria-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  /* Growing Inmobiliario Brand Colors */
-  --color-white: #ffffff;
+  /* Growing Inmobiliario - Stripe-inspired palette */
+  --color-dark: #0a2540;
+  --color-dark-lighter: #0f3052;
   --color-cyan: #00abc8;
   --color-teal: #00758d;
-  --color-dark: #101820;
+  --color-white: #ffffff;
+  --color-gray-50: #f6f9fc;
+  --color-gray-100: #e3e8ee;
+  --color-gray-200: #c1c9d2;
+  --color-gray-400: #8792a2;
+  --color-gray-500: #697386;
+  --color-gray-600: #4f566b;
 
-  /* Semantic colors */
+  /* Gradient colors */
+  --gradient-1: #00abc8;
+  --gradient-2: #00758d;
+  --gradient-3: #0a2540;
+  --gradient-4: #667eea;
+
+  /* Semantic */
   --background: #ffffff;
-  --foreground: #101820;
+  --foreground: #0a2540;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-
-  /* Brand colors for Tailwind */
   --color-cyan: #00abc8;
   --color-teal: #00758d;
-  --color-dark: #101820;
-
-  /* Font families */
-  --font-sans: var(--font-alexandria), system-ui, sans-serif;
-  --font-serif: var(--font-playfair), Georgia, serif;
+  --color-dark: #0a2540;
+  --font-sans: 'Alexandria', system-ui, sans-serif;
+  --font-serif: 'Times CE', Georgia, serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Selection color */
 ::selection {
   background-color: #00abc8;
   color: white;
 }
 
-/* Serif font utility class */
 .font-serif {
   font-family: var(--font-serif);
 }
 
-/* Marquee animation */
+/* ===== STRIPE-STYLE GRADIENT BACKGROUND ===== */
+.hero-gradient {
+  position: relative;
+  background: linear-gradient(135deg, #0a2540 0%, #0f3052 50%, #0a2540 100%);
+  overflow: hidden;
+}
+
+.hero-gradient::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(0, 171, 200, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(102, 126, 234, 0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 100%, rgba(0, 117, 141, 0.25) 0%, transparent 50%);
+  animation: gradientMove 15s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes gradientMove {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(2%, 2%) rotate(1deg);
+  }
+  66% {
+    transform: translate(-1%, 1%) rotate(-1deg);
+  }
+}
+
+/* ===== STRIPE-STYLE CARDS ===== */
+.card {
+  background: white;
+  border-radius: 12px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-shadow-sm {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.card-shadow-md {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.card-shadow-lg {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.card-shadow-xl {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.16), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.card:hover.card-shadow-md {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* ===== PROFESSIONAL BUTTONS ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  padding: 14px 28px;
+  border-radius: 4px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background: #0a2540;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #0f3052;
+}
+
+.btn-secondary {
+  background: white;
+  color: #0a2540;
+  box-shadow: inset 0 0 0 1px #e3e8ee;
+}
+
+.btn-secondary:hover {
+  background: #f6f9fc;
+  box-shadow: inset 0 0 0 1px #c1c9d2;
+}
+
+.btn-dark {
+  background: #0a2540;
+  color: white;
+}
+
+.btn-dark:hover {
+  background: #00abc8;
+}
+
+.btn-cyan {
+  background: #00abc8;
+  color: white;
+}
+
+.btn-cyan:hover {
+  background: #00758d;
+}
+
+.btn-outline {
+  background: transparent;
+  color: #0a2540;
+  box-shadow: inset 0 0 0 1px #c1c9d2;
+}
+
+.btn-outline:hover {
+  background: #f6f9fc;
+  box-shadow: inset 0 0 0 1px #8792a2;
+}
+
+.btn-outline-white {
+  background: transparent;
+  color: white;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+.btn-outline-white:hover {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+/* Arrow animation on hover */
+.btn .arrow {
+  transition: transform 0.2s ease;
+}
+
+.btn:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* ===== SECTION STYLES ===== */
+.section-padding {
+  padding-top: clamp(64px, 10vw, 128px);
+  padding-bottom: clamp(64px, 10vw, 128px);
+}
+
+.section-dark {
+  background: #0a2540;
+  color: white;
+}
+
+.section-light {
+  background: #f6f9fc;
+}
+
+.section-white {
+  background: white;
+}
+
+/* Angled sections */
+.section-angled {
+  position: relative;
+  margin-top: -1px;
+}
+
+.section-angled::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: inherit;
+  transform: skewY(-2deg);
+  transform-origin: top left;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+.animate-delay-400 { animation-delay: 400ms; }
+
+/* Marquee */
 @keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .animate-marquee {
-  animation: marquee 20s linear infinite;
+  animation: marquee 25s linear infinite;
 }
 
-/* FAQ Accordion animation */
-.accordion-content {
-  overflow: hidden;
-  transition: max-height 0.3s ease-out;
+/* Pulse glow */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 171, 200, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(0, 171, 200, 0.6);
+  }
 }
 
-/* Hover effects */
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Float animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ===== TYPOGRAPHY ===== */
+.text-gradient {
+  background: linear-gradient(135deg, #00abc8 0%, #667eea 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* ===== UTILITIES ===== */
 .hover-lift {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .hover-lift:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

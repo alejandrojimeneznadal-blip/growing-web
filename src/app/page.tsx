@@ -1,8 +1,10 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import ValueProposition from "@/components/ValueProposition";
-import Services from "@/components/Services";
-import Community from "@/components/Community";
+import MapSection from "@/components/MapSection";
+import PainPoints from "@/components/PainPoints";
+import ThreeSteps from "@/components/ThreeSteps";
+import Guarantee from "@/components/Guarantee";
+import System from "@/components/System";
 import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
 import ContactForm from "@/components/ContactForm";
@@ -14,9 +16,11 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <ValueProposition />
-        <Services />
-        <Community />
+        <MapSection />
+        <PainPoints />
+        <ThreeSteps />
+        <Guarantee />
+        <System />
         <Testimonials />
         <FAQ />
         <ContactForm />
