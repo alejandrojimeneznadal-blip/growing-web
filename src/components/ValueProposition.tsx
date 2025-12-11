@@ -1,75 +1,62 @@
 const values = [
   {
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-      </svg>
-    ),
-    title: "Comunidad Activa",
-    description: "Conecta con más de 150 inmobiliarias de toda España. Comparte experiencias, resuelve dudas y crece junto a profesionales como tú.",
+    number: "01",
+    title: "Comunidad",
+    description: "Red exclusiva de inmobiliarias. Comparte, aprende y crece con profesionales de toda España.",
   },
   {
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-      </svg>
-    ),
-    title: "Formación Continua",
-    description: "Accede a formaciones exclusivas, webinars y recursos actualizados para estar siempre a la vanguardia del sector inmobiliario.",
+    number: "02",
+    title: "Formación",
+    description: "Programas diseñados para equipos que quieren resultados. Metodología práctica y aplicable.",
   },
   {
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-      </svg>
-    ),
-    title: "Resultados Reales",
-    description: "Estrategias probadas que funcionan. Nuestros miembros incrementan su facturación y optimizan sus procesos desde el primer mes.",
-  },
-  {
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-      </svg>
-    ),
-    title: "Soporte Personalizado",
-    description: "Consultoría adaptada a tu negocio. Te ayudamos a identificar oportunidades y superar los retos específicos de tu inmobiliaria.",
+    number: "03",
+    title: "Consultoría",
+    description: "Análisis personalizado de tu negocio. Identificamos oportunidades y diseñamos estrategias.",
   },
 ];
 
 export default function ValueProposition() {
   return (
-    <section className="py-24 bg-white">
+    <section className="py-32 bg-[#fafafa]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#101820] mb-4">
-            ¿Por qué unirte a Growing?
-          </h2>
-          <p className="text-lg text-gray-600">
-            No somos solo una consultoría. Somos tu socio estratégico para
-            transformar y escalar tu negocio inmobiliario.
-          </p>
-        </div>
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          {/* Left side - Text */}
+          <div className="lg:sticky lg:top-32">
+            <p className="text-[#00abc8] text-sm font-medium uppercase tracking-wider mb-4">
+              Por qué Growing
+            </p>
+            <h2 className="text-4xl sm:text-5xl font-bold text-[#101820] leading-tight mb-6">
+              Todo lo que tu inmobiliaria necesita para crecer
+            </h2>
+            <p className="text-lg text-gray-500 leading-relaxed">
+              No somos una consultoría más. Somos tu partner estratégico con una comunidad activa que te respalda.
+            </p>
+          </div>
 
-        {/* Value cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {values.map((value, index) => (
-            <div
-              key={index}
-              className="group p-6 rounded-2xl bg-gray-50 hover:bg-gradient-to-br hover:from-[#00abc8] hover:to-[#00758d] transition-all duration-300"
-            >
-              <div className="w-14 h-14 rounded-xl bg-[#00abc8]/10 group-hover:bg-white/20 flex items-center justify-center text-[#00abc8] group-hover:text-white mb-4 transition-all">
-                {value.icon}
+          {/* Right side - Cards */}
+          <div className="space-y-6">
+            {values.map((value) => (
+              <div
+                key={value.number}
+                className="group p-8 bg-white rounded-2xl border border-gray-100 hover:border-[#00abc8]/30 hover:shadow-lg hover:shadow-[#00abc8]/5 transition-all duration-300"
+              >
+                <div className="flex items-start gap-6">
+                  <span className="text-5xl font-bold text-gray-100 group-hover:text-[#00abc8]/20 transition-colors">
+                    {value.number}
+                  </span>
+                  <div>
+                    <h3 className="text-xl font-semibold text-[#101820] mb-2">
+                      {value.title}
+                    </h3>
+                    <p className="text-gray-500 leading-relaxed">
+                      {value.description}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-[#101820] group-hover:text-white mb-2 transition-colors">
-                {value.title}
-              </h3>
-              <p className="text-gray-600 group-hover:text-white/90 transition-colors">
-                {value.description}
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

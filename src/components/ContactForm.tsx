@@ -18,7 +18,6 @@ export default function ContactForm() {
     setIsSubmitting(true);
 
     // TODO: Integrate with backend or email service
-    // For now, simulate submission
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     setIsSubmitting(false);
@@ -33,134 +32,79 @@ export default function ContactForm() {
 
   if (isSubmitted) {
     return (
-      <section id="contacto" className="py-24 bg-gradient-to-br from-[#00abc8] to-[#00758d]">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="bg-white rounded-2xl p-12 shadow-2xl">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg
-                className="w-10 h-10 text-green-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-            </div>
-            <h3 className="text-2xl font-bold text-[#101820] mb-4">
-              ¡Gracias por contactarnos!
-            </h3>
-            <p className="text-gray-600">
-              Hemos recibido tu solicitud. Un miembro de nuestro equipo se pondrá
-              en contacto contigo en las próximas 24 horas.
-            </p>
+      <section id="contacto" className="py-32 bg-[#fafafa]">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg
+              className="w-8 h-8 text-green-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
           </div>
+          <h3 className="text-2xl font-bold text-[#101820] mb-4">
+            Gracias por contactarnos
+          </h3>
+          <p className="text-gray-500">
+            Hemos recibido tu solicitud. Un miembro de nuestro equipo se pondrá
+            en contacto contigo en las próximas 24 horas.
+          </p>
         </div>
       </section>
     );
   }
 
   return (
-    <section id="contacto" className="py-24 bg-gradient-to-br from-[#00abc8] to-[#00758d]">
+    <section id="contacto" className="py-32 bg-[#fafafa]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Content */}
-          <div className="text-white">
-            <span className="text-white/80 font-semibold text-sm uppercase tracking-wider">
+          <div>
+            <p className="text-[#00abc8] text-sm font-medium uppercase tracking-wider mb-4">
               Contacto
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold mt-2 mb-6">
+            </p>
+            <h2 className="text-4xl sm:text-5xl font-bold text-[#101820] leading-tight mb-6">
               ¿Listo para hacer crecer tu inmobiliaria?
             </h2>
-            <p className="text-lg text-white/80 mb-8">
+            <p className="text-lg text-gray-500 leading-relaxed mb-12">
               Déjanos tus datos y un miembro de nuestro equipo se pondrá en
-              contacto contigo para explicarte cómo podemos ayudarte a alcanzar
-              tus objetivos.
+              contacto contigo para explicarte cómo podemos ayudarte.
             </p>
 
             <div className="space-y-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
+              {[
+                { title: "Respuesta rápida", subtitle: "Te contactamos en menos de 24h" },
+                { title: "Sin compromiso", subtitle: "Consulta gratuita inicial" },
+                { title: "Atención personalizada", subtitle: "Adaptada a tu inmobiliaria" },
+              ].map((item, index) => (
+                <div key={index} className="flex items-center gap-4">
+                  <span className="w-2 h-2 bg-[#00abc8] rounded-full" />
+                  <div>
+                    <div className="font-medium text-[#101820]">{item.title}</div>
+                    <div className="text-sm text-gray-400">{item.subtitle}</div>
+                  </div>
                 </div>
-                <div>
-                  <div className="font-semibold">Respuesta rápida</div>
-                  <div className="text-white/70">Te contactamos en menos de 24h</div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <div className="font-semibold">Sin compromiso</div>
-                  <div className="text-white/70">Consulta gratuita inicial</div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <div className="font-semibold">Atención personalizada</div>
-                  <div className="text-white/70">Adaptada a tu inmobiliaria</div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
           {/* Form */}
-          <div className="bg-white rounded-2xl p-8 shadow-2xl">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid sm:grid-cols-2 gap-6">
+          <div className="bg-white rounded-2xl p-8 border border-gray-100">
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="grid sm:grid-cols-2 gap-5">
                 <div>
                   <label
                     htmlFor="name"
                     className="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    Nombre completo *
+                    Nombre completo
                   </label>
                   <input
                     type="text"
@@ -169,7 +113,7 @@ export default function ContactForm() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00abc8] focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-gray-50 border-0 rounded-lg focus:ring-2 focus:ring-[#00abc8] focus:bg-white transition-all text-sm"
                     placeholder="Tu nombre"
                   />
                 </div>
@@ -178,7 +122,7 @@ export default function ContactForm() {
                     htmlFor="email"
                     className="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    Email *
+                    Email
                   </label>
                   <input
                     type="email"
@@ -187,19 +131,19 @@ export default function ContactForm() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00abc8] focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-gray-50 border-0 rounded-lg focus:ring-2 focus:ring-[#00abc8] focus:bg-white transition-all text-sm"
                     placeholder="tu@email.com"
                   />
                 </div>
               </div>
 
-              <div className="grid sm:grid-cols-2 gap-6">
+              <div className="grid sm:grid-cols-2 gap-5">
                 <div>
                   <label
                     htmlFor="phone"
                     className="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    Teléfono *
+                    Teléfono
                   </label>
                   <input
                     type="tel"
@@ -208,7 +152,7 @@ export default function ContactForm() {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00abc8] focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-gray-50 border-0 rounded-lg focus:ring-2 focus:ring-[#00abc8] focus:bg-white transition-all text-sm"
                     placeholder="+34 600 000 000"
                   />
                 </div>
@@ -217,7 +161,7 @@ export default function ContactForm() {
                     htmlFor="company"
                     className="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    Nombre de tu inmobiliaria
+                    Tu inmobiliaria
                   </label>
                   <input
                     type="text"
@@ -225,8 +169,8 @@ export default function ContactForm() {
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00abc8] focus:border-transparent transition-all"
-                    placeholder="Tu inmobiliaria"
+                    className="w-full px-4 py-3 bg-gray-50 border-0 rounded-lg focus:ring-2 focus:ring-[#00abc8] focus:bg-white transition-all text-sm"
+                    placeholder="Nombre de tu agencia"
                   />
                 </div>
               </div>
@@ -236,7 +180,7 @@ export default function ContactForm() {
                   htmlFor="message"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
-                  ¿En qué podemos ayudarte?
+                  Mensaje
                 </label>
                 <textarea
                   id="message"
@@ -244,7 +188,7 @@ export default function ContactForm() {
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00abc8] focus:border-transparent transition-all resize-none"
+                  className="w-full px-4 py-3 bg-gray-50 border-0 rounded-lg focus:ring-2 focus:ring-[#00abc8] focus:bg-white transition-all resize-none text-sm"
                   placeholder="Cuéntanos sobre tu inmobiliaria y tus objetivos..."
                 />
               </div>
@@ -252,7 +196,7 @@ export default function ContactForm() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-[#00abc8] hover:bg-[#00758d] disabled:bg-gray-400 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all"
+                className="w-full bg-[#101820] hover:bg-[#00abc8] disabled:bg-gray-300 text-white px-8 py-4 rounded-full font-medium transition-colors"
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center gap-2">
@@ -282,12 +226,11 @@ export default function ContactForm() {
                 )}
               </button>
 
-              <p className="text-xs text-gray-500 text-center">
+              <p className="text-xs text-gray-400 text-center">
                 Al enviar este formulario, aceptas nuestra{" "}
                 <a href="/privacidad" className="text-[#00abc8] hover:underline">
                   política de privacidad
                 </a>
-                .
               </p>
             </form>
           </div>
