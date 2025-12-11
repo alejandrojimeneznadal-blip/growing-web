@@ -31,7 +31,7 @@ export default function Testimonials() {
             <p className="text-sm font-medium tracking-wider text-gray-400 mb-6">
               TESTIMONIOS
             </p>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#101820] leading-tight">
+            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-medium text-[#101820] leading-tight italic">
               Lo que dicen nuestros miembros
             </h2>
           </div>

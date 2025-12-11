@@ -11,7 +11,7 @@ export default function Hero() {
           <p className="text-sm font-medium tracking-wider text-gray-400 mb-6">
             CONSULTORÍA INMOBILIARIA
           </p>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-[#101820] leading-[1.05] tracking-tight">
+          <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-medium text-[#101820] leading-[1.05] tracking-tight italic">
             A un paso de hacer
             <br />
             <span className="text-[#00abc8]">crecer tu negocio</span>

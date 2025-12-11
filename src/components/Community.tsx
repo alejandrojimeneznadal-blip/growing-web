@@ -9,7 +9,7 @@ export default function Community() {
           <p className="text-sm font-medium tracking-wider text-gray-500 mb-6">
             COMUNIDAD
           </p>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
+          <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-medium text-white leading-tight italic">
             +150 inmobiliarias
             <br />
             <span className="text-[#00abc8]">creciendo juntas</span>

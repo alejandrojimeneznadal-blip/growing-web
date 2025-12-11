@@ -30,7 +30,7 @@ export default function Services() {
           <p className="text-sm font-medium tracking-wider text-gray-400 mb-4">
             LO QUE HACEMOS
           </p>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#101820] leading-tight max-w-4xl">
+          <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-medium text-[#101820] leading-tight max-w-4xl italic">
             Soluciones para cada etapa de tu crecimiento
           </h2>
         </div>

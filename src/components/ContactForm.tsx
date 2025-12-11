@@ -69,7 +69,7 @@ export default function ContactForm() {
           <p className="text-sm font-medium tracking-wider text-gray-400 mb-6">
             CONTACTO
           </p>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#101820] leading-tight">
+          <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-medium text-[#101820] leading-tight italic">
             ¿Listo para hacer crecer tu inmobiliaria?
           </h2>
         </div>

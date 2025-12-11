@@ -37,7 +37,7 @@ export default function FAQ() {
             <p className="text-sm font-medium tracking-wider text-gray-400 mb-4">
               DUDAS COMUNES
             </p>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#101820] leading-tight">
+            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-medium text-[#101820] leading-tight italic">
               Preguntas frecuentes
             </h2>
             <p className="mt-6 text-lg text-gray-500 leading-relaxed">
