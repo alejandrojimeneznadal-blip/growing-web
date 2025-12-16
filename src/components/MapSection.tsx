@@ -163,7 +163,7 @@ export default function MapSection() {
           </div>
 
           {/* Right - Spain Map with hexagons - positioned absolutely to overlap */}
-          <div className="absolute top-1/2 -translate-y-1/2 -right-16 sm:-right-10 lg:-right-10 w-[280px] sm:w-[400px] lg:w-[750px]">
+          <div className="absolute top-1/2 -translate-y-1/3 -right-4 sm:-right-10 lg:-right-10 w-[280px] sm:w-[400px] lg:w-[750px]">
             <svg
               viewBox="0 -30 1000 760"
               className="w-full h-full"
