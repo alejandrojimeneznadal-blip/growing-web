@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Chatbot from "@/components/Chatbot";
 
 export const metadata: Metadata = {
   title: "Growing Inmobiliario | La comunidad que impulsa a las inmobiliarias",
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="es">
       <body className="antialiased">
         {children}
+        <Chatbot />
       </body>
     </html>
   );
