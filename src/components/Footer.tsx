@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const socialLinks = [
   {
@@ -32,6 +35,9 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
+  const isEquipoPage = pathname === "/equipo";
+
   return (
     <footer className="bg-[#0a2540]">
       {/* Main footer content */}
@@ -81,7 +87,7 @@ export default function Footer() {
                   { label: "Método", href: "#servicios" },
                   { label: "Garantía", href: "#garantia" },
                   { label: "Testimonios", href: "#testimonios" },
-                  { label: "FAQ", href: "#faq" },
+                  { label: "Blog", href: "/blog" },
                 ].map((link) => (
                   <li key={link.href}>
                     <Link
@@ -143,29 +149,6 @@ export default function Footer() {
                 </li>
               </ul>
 
-              {/* Trustpilot */}
-              <Link
-                href="https://www.trustpilot.com/review/growinginmobiliario.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 mt-6 bg-white/5 rounded-lg px-4 py-3 hover:bg-white/10 transition-colors"
-              >
-                <div className="flex gap-1">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <svg
-                      key={i}
-                      className={`w-4 h-4 ${i <= 4 ? "text-[#00b67a]" : "text-[#00b67a]/50"}`}
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                    </svg>
-                  ))}
-                </div>
-                <span className="text-sm text-white/60">
-                  <span className="text-white font-semibold">4.7</span>/5
-                </span>
-              </Link>
             </div>
           </div>
         </div>
@@ -179,7 +162,11 @@ export default function Footer() {
               © {new Date().getFullYear()} Growing Inmobiliario. Todos los derechos reservados.
             </p>
             <p className="text-white/40 text-sm">
-              Hecho con pasión en España
+              Hecho con pasi{isEquipoPage ? (
+                <Link href="/roulette" className="hover:text-white/60 transition-colors cursor-pointer">ó</Link>
+              ) : (
+                "ó"
+              )}n en España
             </p>
           </div>
         </div>

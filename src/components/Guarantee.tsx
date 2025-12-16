@@ -1,17 +1,33 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 export default function Guarantee() {
+  const [isVisible, setIsVisible] = useState(false);
+  const titleRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (!titleRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setIsVisible(true);
+          }, 1000);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(titleRef.current);
+
+    return () => observer.disconnect();
+  }, []);
   return (
     <section id="garantia" className="section-padding bg-gradient-to-br from-[#f6f9fc] to-white relative overflow-hidden">
-      {/* Decorative elements */}
-      <div className="absolute top-0 right-0 w-1/2 h-full opacity-50">
-        <div className="absolute top-20 right-20 w-64 h-64 border border-[#00abc8]/20 rounded-full" />
-        <div className="absolute top-40 right-40 w-48 h-48 border border-[#00abc8]/10 rounded-full" />
-        <div className="absolute top-60 right-60 w-32 h-32 border border-[#00abc8]/5 rounded-full" />
-      </div>
-
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left - Content */}
@@ -23,10 +39,17 @@ export default function Guarantee() {
               GARANTÍA TOTAL
             </div>
 
-            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-medium text-[#0a2540] leading-tight italic mb-6">
-              20 propiedades
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl text-[#0a2540] leading-tight mb-6">
+              <span className="font-serif font-medium italic">20 propiedades</span>
               <br />
-              <span className="text-gradient">en 180 días</span>
+              <span ref={titleRef} className="relative inline-block font-bold text-[#00abc8]">
+                en 180 días
+                <span
+                  className={`absolute bottom-1 left-0 h-3 bg-[#00abc8]/20 -z-10 transition-all duration-700 ease-out ${
+                    isVisible ? "w-full" : "w-0"
+                  }`}
+                />
+              </span>
             </h2>
 
             <p className="text-xl text-gray-500 leading-relaxed mb-8">
@@ -60,35 +83,203 @@ export default function Guarantee() {
             </Link>
           </div>
 
-          {/* Right - Visual */}
-          <div className="relative">
-            <div className="bg-[#0a2540] rounded-3xl p-10 lg:p-14 text-center shadow-2xl">
-              {/* Badge */}
-              <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-[#00abc8] to-[#667eea] rounded-full mb-8 animate-pulse-glow">
-                <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          {/* Right - Visual: 3D Shield */}
+          <div className="relative flex items-center justify-center" style={{ perspective: '800px' }}>
+            {/* Shadow on ground - static, outside the animated container */}
+            <div
+              className="absolute bottom-[-60px] w-[220px] lg:w-[260px] h-[70px] rounded-[50%]"
+              style={{
+                background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.35) 40%, transparent 70%)',
+                filter: 'blur(15px)',
+                animation: 'shadowPulse 4s ease-in-out infinite'
+              }}
+            />
+
+            {/* Shield container with 3D transform and levitation */}
+            <div
+              className="relative w-[280px] lg:w-[320px] shield-levitate"
+              style={{
+                transformStyle: 'preserve-3d'
+              }}
+            >
+              {/* Deep shadow layer */}
+              <svg
+                viewBox="0 0 200 240"
+                className="absolute w-full h-auto"
+                style={{ transform: 'translateZ(-70px)', filter: 'blur(30px)', opacity: 0.5 }}
+                fill="none"
+              >
+                <path
+                  d="M100 10 L180 40 L180 120 C180 170 140 210 100 230 C60 210 20 170 20 120 L20 40 Z"
+                  fill="#00abc8"
+                />
+              </svg>
+
+              {/* Back depth layers - más grueso */}
+              {[60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5].map((z, i) => (
+                <svg
+                  key={z}
+                  viewBox="0 0 200 240"
+                  className="absolute w-full h-auto"
+                  style={{ transform: `translateZ(-${z}px)` }}
+                  fill="none"
+                >
+                  <path
+                    d="M100 10 L180 40 L180 120 C180 170 140 210 100 230 C60 210 20 170 20 120 L20 40 Z"
+                    fill={i < 6 ? '#020810' : '#061829'}
+                  />
                 </svg>
-              </div>
+              ))}
 
-              <div className="text-7xl lg:text-8xl font-bold text-white mb-2">
-                180
-              </div>
-              <div className="text-xl text-white/60 mb-6">
-                días de garantía
-              </div>
+              {/* Right edge highlight */}
+              <svg
+                viewBox="0 0 200 240"
+                className="absolute w-full h-auto"
+                style={{ transform: 'translateZ(-2px)' }}
+                fill="none"
+              >
+                <path
+                  d="M180 40 L180 120 C180 170 140 210 100 230"
+                  fill="none"
+                  stroke="#00abc8"
+                  strokeWidth="4"
+                  opacity="0.3"
+                />
+              </svg>
 
-              <div className="border-t border-white/10 pt-6 mt-6">
-                <div className="text-5xl lg:text-6xl font-bold text-[#00abc8] mb-2">
+              {/* Main shield face */}
+              <svg
+                viewBox="0 0 200 240"
+                className="relative w-full h-auto overflow-visible"
+                style={{ transform: 'translateZ(0px)' }}
+                fill="none"
+              >
+                <defs>
+                  {/* Gradient for 3D effect */}
+                  <linearGradient id="shieldGradient3D" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#1a4a6e" />
+                    <stop offset="30%" stopColor="#0f3052" />
+                    <stop offset="70%" stopColor="#0a2540" />
+                    <stop offset="100%" stopColor="#051525" />
+                  </linearGradient>
+                  {/* Strong highlight */}
+                  <linearGradient id="highlight3D" x1="0%" y1="0%" x2="60%" y2="60%">
+                    <stop offset="0%" stopColor="white" stopOpacity="0.25" />
+                    <stop offset="40%" stopColor="white" stopOpacity="0.05" />
+                    <stop offset="100%" stopColor="white" stopOpacity="0" />
+                  </linearGradient>
+                  {/* Edge glow */}
+                  <filter id="edgeGlow">
+                    <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#00abc8" floodOpacity="0.5"/>
+                  </filter>
+                  {/* Shine gradient */}
+                  <linearGradient id="shineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="white" stopOpacity="0" />
+                    <stop offset="40%" stopColor="white" stopOpacity="0.15" />
+                    <stop offset="50%" stopColor="white" stopOpacity="0.3" />
+                    <stop offset="60%" stopColor="white" stopOpacity="0.15" />
+                    <stop offset="100%" stopColor="white" stopOpacity="0" />
+                  </linearGradient>
+                  {/* Clip path for shield shape */}
+                  <clipPath id="shieldClip">
+                    <path d="M100 10 L180 40 L180 120 C180 170 140 210 100 230 C60 210 20 170 20 120 L20 40 Z" />
+                  </clipPath>
+                </defs>
+
+                {/* Shield background */}
+                <path
+                  d="M100 10 L180 40 L180 120 C180 170 140 210 100 230 C60 210 20 170 20 120 L20 40 Z"
+                  fill="url(#shieldGradient3D)"
+                />
+
+                {/* Highlight overlay */}
+                <path
+                  d="M100 10 L180 40 L180 120 C180 170 140 210 100 230 C60 210 20 170 20 120 L20 40 Z"
+                  fill="url(#highlight3D)"
+                />
+
+                {/* Shine effect - diagonal from top-left to bottom-right */}
+                <g clipPath="url(#shieldClip)">
+                  <rect
+                    className="shield-shine"
+                    fill="url(#shineGradient)"
+                    x="50"
+                    y="-100"
+                    width="100"
+                    height="500"
+                  />
+                </g>
+
+                {/* Glowing border */}
+                <path
+                  d="M100 10 L180 40 L180 120 C180 170 140 210 100 230 C60 210 20 170 20 120 L20 40 Z"
+                  fill="none"
+                  stroke="#00abc8"
+                  strokeWidth="3"
+                  filter="url(#edgeGlow)"
+                />
+
+                {/* Inner decorative line */}
+                <path
+                  d="M100 30 L158 52 L158 116 C158 154 130 184 100 200 C70 184 42 154 42 116 L42 52 Z"
+                  fill="none"
+                  stroke="#00abc8"
+                  strokeWidth="1.5"
+                  opacity="0.2"
+                />
+              </svg>
+
+              {/* Content over shield - incrustado */}
+              <div
+                className="absolute inset-0 flex flex-col items-center justify-center text-center -mt-6"
+                style={{
+                  transform: 'translateZ(2px)',
+                  transformStyle: 'preserve-3d'
+                }}
+              >
+                {/* Main number - efecto incrustado blanco */}
+                <div
+                  className="text-6xl lg:text-7xl font-bold leading-none text-white"
+                  style={{
+                    textShadow: '0 -2px 4px rgba(0,0,0,0.8), 0 2px 2px rgba(255,255,255,0.1), inset 0 0 0 rgba(0,0,0,0.5)'
+                  }}
+                >
+                  180
+                </div>
+                <div
+                  className="text-sm mb-4 text-white/70"
+                  style={{
+                    textShadow: '0 -1px 2px rgba(0,0,0,0.6), 0 1px 1px rgba(255,255,255,0.1)'
+                  }}
+                >
+                  días de garantía
+                </div>
+
+                {/* Divider - tres puntos */}
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#00abc8]" style={{ boxShadow: '0 0 6px #00abc8' }} />
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#00abc8]" style={{ boxShadow: '0 0 6px #00abc8' }} />
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#00abc8]" style={{ boxShadow: '0 0 6px #00abc8' }} />
+                </div>
+
+                {/* Secondary info - incrustado blanco */}
+                <div
+                  className="text-3xl lg:text-4xl font-bold text-white"
+                  style={{
+                    textShadow: '0 -2px 4px rgba(0,0,0,0.7), 0 2px 2px rgba(255,255,255,0.1)'
+                  }}
+                >
                   20+
                 </div>
-                <div className="text-white/60">
-                  propiedades en exclusiva
+                <div
+                  className="text-sm text-white/50"
+                  style={{
+                    textShadow: '0 -1px 2px rgba(0,0,0,0.6), 0 1px 1px rgba(255,255,255,0.1)'
+                  }}
+                >
+                  propiedades
                 </div>
               </div>
-
-              {/* Corner decoration */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#00abc8] rounded-2xl opacity-20 transform rotate-12" />
-              <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-[#667eea] rounded-xl opacity-20 transform -rotate-12" />
             </div>
           </div>
         </div>

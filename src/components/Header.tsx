@@ -17,10 +17,10 @@ export default function Header() {
   }, []);
 
   const navLinks = [
-    { href: "#servicios", label: "Método" },
-    { href: "#garantia", label: "Garantía" },
-    { href: "#testimonios", label: "Testimonios" },
-    { href: "#faq", label: "FAQ" },
+    { href: "/resultados", label: "Resultados" },
+    { href: "/nuestra-historia", label: "Nuestra Historia" },
+    { href: "/equipo", label: "Equipo" },
+    { href: "/login", label: "Iniciar Sesión" },
   ];
 
   return (
@@ -62,6 +62,9 @@ export default function Header() {
           <div className="hidden lg:block">
             <Link href="#contacto" className="btn btn-primary text-sm py-3">
               Comprueba si cualificas
+              <svg className="w-4 h-4 arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
             </Link>
           </div>
 
@@ -110,7 +113,14 @@ export default function Header() {
                   {link.label}
                 </Link>
               ))}
-              <div className="pt-4 mt-2 border-t border-gray-100">
+              <div className="pt-4 mt-2 border-t border-gray-100 flex flex-col gap-3">
+                <Link
+                  href="/login"
+                  className="text-gray-600 hover:text-[#0a2540] py-3 px-4 text-center transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Iniciar Sesión
+                </Link>
                 <Link
                   href="#contacto"
                   className="btn btn-primary w-full justify-center"

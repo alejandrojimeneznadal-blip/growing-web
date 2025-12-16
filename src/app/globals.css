@@ -408,6 +408,48 @@ html {
   animation: float 3s ease-in-out infinite;
 }
 
+/* Draw circle animation (handwritten style) */
+@keyframes drawCircle {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Highlighter grow animation */
+@keyframes highlightGrow {
+  to {
+    width: 105%;
+  }
+}
+
+/* Highlighter reveal animation */
+@keyframes highlightReveal {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Diagonal highlighter reveal */
+@keyframes diagonalReveal {
+  to {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+/* Draw line animation */
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Highlighter scale animation */
+@keyframes highlightScale {
+  to {
+    transform: scaleX(1);
+  }
+}
+
 /* ===== TYPOGRAPHY ===== */
 .text-gradient {
   background: linear-gradient(135deg, #00abc8 0%, #667eea 100%);
@@ -436,6 +478,87 @@ html {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Shield levitation animation */
+@keyframes shieldLevitate {
+  0%, 100% {
+    transform: rotateY(-25deg) rotateX(10deg) translateY(0px);
+  }
+  50% {
+    transform: rotateY(-25deg) rotateX(10deg) translateY(-25px);
+  }
+}
+
+.shield-levitate {
+  animation: shieldLevitate 4s ease-in-out infinite !important;
+}
+
+/* Shadow pulse - grows when shield is up, shrinks when down */
+@keyframes shadowPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.5;
+  }
+}
+
+/* Shield shine effect - diagonal */
+@keyframes shieldShine {
+  0% {
+    transform: rotate(45deg) translate(-250px, -250px);
+  }
+  50%, 100% {
+    transform: rotate(45deg) translate(250px, 250px);
+  }
+}
+
+.shield-shine {
+  animation: shieldShine 3.5s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+/* Wave animations */
+@keyframes wave {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-25px);
+  }
+}
+
+@keyframes wave-slow {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(25px);
+  }
+}
+
+@keyframes wave-slower {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-15px);
+  }
+}
+
+.animate-wave {
+  animation: wave 8s ease-in-out infinite;
+}
+
+.animate-wave-slow {
+  animation: wave-slow 10s ease-in-out infinite;
+}
+
+.animate-wave-slower {
+  animation: wave-slower 12s ease-in-out infinite;
 }
 
 /* Reduced motion */

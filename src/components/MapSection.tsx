@@ -16,12 +16,55 @@ export default function MapSection() {
   const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
   const [waves, setWaves] = useState<WaveEffect[]>([]);
   const [currentTime, setCurrentTime] = useState(0);
+  const [highlightVisible, setHighlightVisible] = useState(false);
+  const [heartbeatTime, setHeartbeatTime] = useState(0);
   const animationRef = useRef<number | null>(null);
+  const heartbeatRef = useRef<number | null>(null);
+  const textRef = useRef<HTMLDivElement>(null);
 
   // Mount only on client
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Heartbeat animation loop
+  useEffect(() => {
+    if (!mounted) return;
+
+    const animate = () => {
+      setHeartbeatTime(Date.now());
+      heartbeatRef.current = requestAnimationFrame(animate);
+    };
+
+    heartbeatRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (heartbeatRef.current) {
+        cancelAnimationFrame(heartbeatRef.current);
+      }
+    };
+  }, [mounted]);
+
+  // Intersection observer for highlight animation
+  useEffect(() => {
+    if (!textRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setHighlightVisible(true);
+          }, 1000);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(textRef.current);
+
+    return () => observer.disconnect();
+  }, [mounted]);
 
   // Animation loop for wave effects
   useEffect(() => {
@@ -75,15 +118,18 @@ export default function MapSection() {
       <section className="py-20 lg:py-32 bg-white overflow-visible min-h-[500px] lg:min-h-[600px]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="relative min-h-[400px] lg:min-h-[500px]">
-            <div className="relative z-10 max-w-md select-none">
-              <p className="font-serif italic text-7xl sm:text-8xl lg:text-9xl font-normal text-[#00abc8] leading-none tracking-tight">
-                +150
-              </p>
-              <p className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#0a2540] leading-none mt-2">
+            <div className="relative z-10 max-w-md select-none ml-12 lg:ml-24 mt-24 lg:mt-36">
+              <div className="relative inline-block">
+                <span className="absolute bottom-[15%] left-0 right-0 h-[45%] bg-gray-300/50 -z-10 rounded-sm scale-x-0 origin-left" />
+                <p className="font-serif italic text-6xl sm:text-7xl lg:text-8xl font-bold text-[#00abc8] leading-none tracking-tight">
+                  +150
+                </p>
+              </div>
+              <p className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0a2540] leading-none mt-2">
                 inmobiliarias
               </p>
-              <p className="text-2xl sm:text-3xl lg:text-4xl text-gray-400 mt-4 font-light">
-                en toda España
+              <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 mt-3 font-light">
+                ya escalan con nosotros
               </p>
             </div>
           </div>
@@ -97,15 +143,22 @@ export default function MapSection() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="relative min-h-[400px] lg:min-h-[500px]">
           {/* Left - Text */}
-          <div className="relative z-10 max-w-md select-none">
-            <p className="font-serif italic text-7xl sm:text-8xl lg:text-9xl font-normal text-[#00abc8] leading-none tracking-tight">
-              +150
-            </p>
-            <p className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#0a2540] leading-none mt-2">
+          <div ref={textRef} className="relative z-10 max-w-md select-none ml-12 lg:ml-24 mt-24 lg:mt-36">
+            <div className="relative inline-block">
+              <span
+                className={`absolute bottom-[15%] left-0 right-0 h-[45%] bg-gray-300/50 -z-10 rounded-sm transition-transform duration-500 ease-out origin-left ${
+                  highlightVisible ? "scale-x-100" : "scale-x-0"
+                }`}
+              />
+              <p className="font-serif italic text-6xl sm:text-7xl lg:text-8xl font-bold text-[#00abc8] leading-none tracking-tight">
+                +150
+              </p>
+            </div>
+            <p className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0a2540] leading-none mt-2">
               inmobiliarias
             </p>
-            <p className="text-2xl sm:text-3xl lg:text-4xl text-gray-400 mt-4 font-light">
-              en toda España
+            <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 mt-3 font-light">
+              ya escalan con nosotros
             </p>
           </div>
 
@@ -172,14 +225,32 @@ export default function MapSection() {
                     }
                   }
 
+                  // Radial pulse - circular waves expanding from center (soft)
+                  const pulseTime = heartbeatTime / 1000;
+
+                  // Center of Spain (approximately Madrid)
+                  const centerX = 480;
+                  const centerY = 380;
+                  const dx = hex.x - centerX;
+                  const dy = hex.y - centerY;
+                  const distFromCenter = Math.sqrt(dx * dx + dy * dy);
+
+                  // Slower, wider rings
+                  const ringSpeed = 60;
+                  const ringSpacing = 200;
+                  const phase = (distFromCenter - pulseTime * ringSpeed) / ringSpacing;
+                  const ringWave = Math.sin(phase * Math.PI * 2) * 2.5;
+
+                  const radialLift = Math.max(0, ringWave + 1.5);
+
                   // Add base height from concentration points
-                  const totalLift = lift + waveLift + hex.baseHeight;
+                  const totalLift = lift + waveLift + hex.baseHeight + radialLift;
                   const depth = 10 + totalLift;
                   const yOffset = -totalLift;
 
                   // Color based on height - from light gray to darker teal
                   const heightRatio = Math.min(hex.baseHeight / 20, 1);
-                  const baseTopColor = lerpColor("#e8eef2", "#0088a0", heightRatio * 0.7);
+
                   const baseSide0 = lerpColor("#d0d8e0", "#007080", heightRatio * 0.7);
                   const baseSide1 = lerpColor("#c8d0d8", "#006070", heightRatio * 0.7);
                   const baseSide2 = lerpColor("#b8c0c8", "#005060", heightRatio * 0.7);
@@ -252,13 +323,30 @@ export default function MapSection() {
                     }
                   }
 
+                  // Radial pulse - circular waves expanding from center (soft)
+                  const pulseTime = heartbeatTime / 1000;
+
+                  const centerX = 480;
+                  const centerY = 380;
+                  const dx = hex.x - centerX;
+                  const dy = hex.y - centerY;
+                  const distFromCenter = Math.sqrt(dx * dx + dy * dy);
+
+                  const ringSpeed = 60;
+                  const ringSpacing = 200;
+                  const phase = (distFromCenter - pulseTime * ringSpeed) / ringSpacing;
+                  const ringWave = Math.sin(phase * Math.PI * 2) * 2.5;
+
+                  const radialLift = Math.max(0, ringWave + 1.5);
+
                   // Add base height from concentration points
-                  const totalLift = lift + waveLift + hex.baseHeight;
+                  const totalLift = lift + waveLift + hex.baseHeight + radialLift;
                   const yOffset = -totalLift;
 
                   // Color based on height - from light gray to darker teal
                   const heightRatio = Math.min(hex.baseHeight / 20, 1);
                   const baseTopColor = lerpColor("#e8eef2", "#0088a0", heightRatio * 0.7);
+
                   const topColor = intensity > 0 ? lerpColor(baseTopColor, "#70c8d8", intensity) : baseTopColor;
 
                   return (
