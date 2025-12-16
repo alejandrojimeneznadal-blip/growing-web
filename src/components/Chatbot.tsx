@@ -147,24 +147,25 @@ export default function Chatbot() {
       {/* Chat bubble button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-6 right-6 z-50 bg-[#0a2540] shadow-lg flex items-center gap-3 pl-4 pr-5 py-3 rounded-full transition-all duration-300 ${
+        className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 bg-[#0a2540] shadow-lg flex items-center gap-2 sm:gap-3 px-3 sm:pl-4 sm:pr-5 py-2.5 sm:py-3 rounded-full transition-all duration-300 ${
           isOpen ? "scale-0 opacity-0" : "scale-100 opacity-100"
         }`}
         aria-label="Abrir chat"
       >
-        <span className="text-white text-sm font-medium">¿Tienes dudas?</span>
+        <span className="text-white text-xs sm:text-sm font-medium">¿Tienes dudas?</span>
         <Image
           src="/Logo_03b.svg"
           alt="Growing"
           width={28}
           height={28}
-          className="w-7 h-7 brightness-0 invert"
+          className="w-6 h-6 sm:w-7 sm:h-7 brightness-0 invert"
         />
       </button>
 
       {/* Chat window */}
       <div
-        className={`fixed bottom-6 right-6 z-50 w-[380px] h-[520px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 origin-bottom-right ${
+        className={`fixed z-50 bg-white shadow-2xl flex flex-col overflow-hidden transition-all duration-300 origin-bottom-right
+          bottom-0 right-0 w-full h-full sm:bottom-6 sm:right-6 sm:w-[380px] sm:h-[520px] sm:rounded-2xl ${
           isOpen
             ? "scale-100 opacity-100"
             : "scale-0 opacity-0 pointer-events-none"
