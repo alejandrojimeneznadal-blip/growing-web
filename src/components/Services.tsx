@@ -23,27 +23,27 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="servicios" className="py-32 bg-[#fafafa]">
+    <section id="servicios" className="py-16 sm:py-24 lg:py-32 bg-[#fafafa]">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-20">
+        <div className="mb-10 sm:mb-16 lg:mb-20">
           <p className="text-sm font-medium tracking-wider text-gray-400 mb-4">
             LO QUE HACEMOS
           </p>
-          <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-medium text-[#101820] leading-tight max-w-4xl italic">
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-6xl font-medium text-[#101820] leading-tight max-w-4xl italic">
             Soluciones para cada etapa de tu crecimiento
           </h2>
         </div>
 
         {/* Services grid */}
-        <div className="grid lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {services.map((service, index) => (
             <div
               key={index}
-              className="group bg-white p-8 lg:p-10 hover-lift cursor-pointer"
+              className="group bg-white p-6 sm:p-8 lg:p-10 hover-lift cursor-pointer"
             >
               {/* Number */}
-              <span className="text-7xl lg:text-8xl font-bold text-gray-100 group-hover:text-[#00abc8]/20 transition-colors">
+              <span className="text-5xl sm:text-7xl lg:text-8xl font-bold text-gray-100 group-hover:text-[#00abc8]/20 transition-colors">
                 {service.number}
               </span>
 
@@ -71,10 +71,10 @@ export default function Services() {
         </div>
 
         {/* CTA */}
-        <div className="mt-20 flex justify-center">
+        <div className="mt-10 sm:mt-16 lg:mt-20 flex justify-center">
           <Link
             href="#contacto"
-            className="bg-[#101820] text-white px-8 py-4 text-sm font-medium tracking-wider hover:bg-[#00abc8] transition-colors"
+            className="bg-[#101820] text-white px-6 sm:px-8 py-3 sm:py-4 text-sm font-medium tracking-wider hover:bg-[#00abc8] transition-colors text-center"
           >
             SOLICITAR INFORMACIÓN
           </Link>

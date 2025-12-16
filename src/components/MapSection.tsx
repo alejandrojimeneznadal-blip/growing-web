@@ -115,20 +115,20 @@ export default function MapSection() {
 
   if (!mounted) {
     return (
-      <section className="py-20 lg:py-32 bg-white overflow-visible min-h-[500px] lg:min-h-[600px]">
+      <section className="py-16 lg:py-32 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="relative min-h-[400px] lg:min-h-[500px]">
-            <div className="relative z-10 max-w-md select-none ml-12 lg:ml-24 mt-24 lg:mt-36">
+          <div className="relative min-h-[300px] lg:min-h-[500px]">
+            <div className="relative z-10 max-w-md select-none ml-4 sm:ml-12 lg:ml-24 mt-8 lg:mt-36">
               <div className="relative inline-block">
                 <span className="absolute bottom-[15%] left-0 right-0 h-[45%] bg-gray-300/50 -z-10 rounded-sm scale-x-0 origin-left" />
-                <p className="font-serif italic text-6xl sm:text-7xl lg:text-8xl font-bold text-[#00abc8] leading-none tracking-tight">
+                <p className="font-serif italic text-5xl sm:text-7xl lg:text-8xl font-bold text-[#00abc8] leading-none tracking-tight">
                   +150
                 </p>
               </div>
-              <p className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0a2540] leading-none mt-2">
+              <p className="text-2xl sm:text-4xl lg:text-5xl font-bold text-[#0a2540] leading-none mt-2">
                 inmobiliarias
               </p>
-              <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 mt-3 font-light">
+              <p className="text-base sm:text-xl lg:text-2xl text-gray-400 mt-3 font-light">
                 ya escalan con nosotros
               </p>
             </div>
@@ -139,31 +139,31 @@ export default function MapSection() {
   }
 
   return (
-    <section className="py-20 lg:py-32 bg-white overflow-visible min-h-[500px] lg:min-h-[600px]">
+    <section className="py-16 lg:py-32 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="relative min-h-[400px] lg:min-h-[500px]">
+        <div className="relative min-h-[300px] lg:min-h-[500px]">
           {/* Left - Text */}
-          <div ref={textRef} className="relative z-10 max-w-md select-none ml-12 lg:ml-24 mt-24 lg:mt-36">
+          <div ref={textRef} className="relative z-10 max-w-md select-none ml-4 sm:ml-12 lg:ml-24 mt-8 lg:mt-36">
             <div className="relative inline-block">
               <span
                 className={`absolute bottom-[15%] left-0 right-0 h-[45%] bg-gray-300/50 -z-10 rounded-sm transition-transform duration-500 ease-out origin-left ${
                   highlightVisible ? "scale-x-100" : "scale-x-0"
                 }`}
               />
-              <p className="font-serif italic text-6xl sm:text-7xl lg:text-8xl font-bold text-[#00abc8] leading-none tracking-tight">
+              <p className="font-serif italic text-5xl sm:text-7xl lg:text-8xl font-bold text-[#00abc8] leading-none tracking-tight">
                 +150
               </p>
             </div>
-            <p className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0a2540] leading-none mt-2">
+            <p className="text-2xl sm:text-4xl lg:text-5xl font-bold text-[#0a2540] leading-none mt-2">
               inmobiliarias
             </p>
-            <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 mt-3 font-light">
+            <p className="text-base sm:text-xl lg:text-2xl text-gray-400 mt-3 font-light">
               ya escalan con nosotros
             </p>
           </div>
 
           {/* Right - Spain Map with hexagons - positioned absolutely to overlap */}
-          <div className="absolute top-1/2 -translate-y-1/2 right-0 lg:-right-10 w-[600px] lg:w-[750px]">
+          <div className="hidden sm:block absolute top-1/2 -translate-y-1/2 -right-20 sm:-right-10 lg:-right-10 w-[350px] sm:w-[450px] lg:w-[750px]">
             <svg
               viewBox="0 -30 1000 760"
               className="w-full h-full"
@@ -363,7 +363,7 @@ export default function MapSection() {
             </svg>
 
             {/* Canarias - positioned bottom left of the main map */}
-            <div className="absolute bottom-0 -left-48 lg:-left-60 w-[280px] lg:w-[350px]">
+            <div className="hidden lg:block absolute bottom-0 -left-48 lg:-left-60 w-[280px] lg:w-[350px]">
               <svg
                 viewBox="0 0 500 180"
                 className="w-full h-full"
