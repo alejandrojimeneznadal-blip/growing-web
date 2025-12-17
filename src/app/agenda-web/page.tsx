@@ -87,7 +87,7 @@ export default function FunnelPage() {
           >
             {/* Header */}
             <div className="text-center mb-8">
-              <p className="text-white/60 text-sm tracking-wider uppercase mb-4">
+              <p className="text-white/60 text-base sm:text-lg tracking-wider uppercase mb-4">
                 AGENTES Y AGENCIAS INMOBILIARIAS
               </p>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight mb-6">
@@ -145,11 +145,11 @@ export default function FunnelPage() {
             {/* Header */}
             <div className="text-center mb-8">
               <p className="text-lg mb-2">
-                <span className="text-red-500 font-bold">IMPORTANTE:</span>{" "}
+                <span className="text-[#00abc8] font-bold">IMPORTANTE:</span>{" "}
                 <span className="text-white">ESTO</span>{" "}
-                <span className="text-red-500 font-bold">NO</span>{" "}
+                <span className="text-[#00abc8] font-bold">NO</span>{" "}
                 <span className="text-white">ES UNA FORMACION ES UN SERVICIO HECHO</span>{" "}
-                <span className="text-red-500 font-bold">CONTIGO</span>
+                <span className="text-[#00abc8] font-bold">CONTIGO</span>
               </p>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
                 <span className="font-semibold">Paso 2 de 2:</span> Agenda tu llamada de crecimiento gratuita

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 interface Message {
@@ -16,7 +17,11 @@ const generateSessionId = () => {
   return `session_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 };
 
+// Páginas donde NO se muestra el chatbot
+const HIDDEN_PATHS = ["/agenda-web"];
+
 export default function Chatbot() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [sessionId] = useState(() => generateSessionId());
   const [messages, setMessages] = useState<Message[]>([
@@ -38,6 +43,11 @@ export default function Chatbot() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // No mostrar en páginas específicas
+  if (HIDDEN_PATHS.includes(pathname)) {
+    return null;
+  }
 
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
