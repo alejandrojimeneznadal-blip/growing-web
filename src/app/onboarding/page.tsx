@@ -168,6 +168,7 @@ export default function OnboardingPage() {
                 scrolling="no"
                 id="q7kCv4N5jFV395ebOssY"
                 title="Formulario de onboarding"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
               />
             </div>
 
@@ -200,6 +201,7 @@ export default function OnboardingPage() {
                 scrolling="no"
                 id="calendar-onboarding"
                 title="Calendario de onboarding"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
               />
             </div>
 
@@ -373,6 +375,7 @@ export default function OnboardingPage() {
                 data-deactivation-type="neverDeactivate"
                 data-form-name="Form Emails para acceso -> Skool"
                 title="Form Emails para acceso -> Skool"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
               />
             </div>
 
