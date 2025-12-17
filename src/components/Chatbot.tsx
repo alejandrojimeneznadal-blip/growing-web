@@ -11,8 +11,14 @@ interface Message {
   isNew?: boolean;
 }
 
+// Genera un ID único para la sesión
+const generateSessionId = () => {
+  return `session_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+};
+
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
+  const [sessionId] = useState(() => generateSessionId());
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
@@ -69,6 +75,7 @@ export default function Chatbot() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            sessionId: sessionId,
             message: messageText,
             timestamp: new Date().toISOString(),
           }),
