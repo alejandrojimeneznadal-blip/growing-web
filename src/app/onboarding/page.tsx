@@ -161,7 +161,7 @@ export default function OnboardingPage() {
               Completa el formulario
             </h1>
 
-            <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+            <div>
               <iframe
                 src="https://api.leadconnectorhq.com/widget/survey/q7kCv4N5jFV395ebOssY"
                 style={{ border: "none", width: "100%", minHeight: "600px" }}
@@ -171,16 +171,13 @@ export default function OnboardingPage() {
               />
             </div>
 
-            <div className="text-center">
+            <div className="text-center mt-4">
               <button
                 onClick={nextStep}
                 disabled={isTransitioning}
-                className="inline-flex items-center gap-3 px-8 py-4 bg-[#00abc8] hover:bg-[#00abc8]/90 text-white font-bold text-lg rounded-xl transition-all shadow-lg disabled:opacity-50"
+                className="text-gray-400 hover:text-gray-600 text-sm transition-colors"
               >
-                Continuar al siguiente paso
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
+                He completado el formulario →
               </button>
             </div>
           </div>
@@ -196,26 +193,23 @@ export default function OnboardingPage() {
               Selecciona el día y hora que mejor te venga
             </p>
 
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
+            <div>
               <iframe
                 src="https://api.leadconnectorhq.com/widget/booking/BAveYGCH1C5jJkQrxyX0"
-                style={{ width: "100%", height: "700px", border: "none" }}
+                style={{ width: "100%", height: "900px", border: "none" }}
                 scrolling="no"
                 id="calendar-onboarding"
                 title="Calendario de onboarding"
               />
             </div>
 
-            <div className="text-center">
+            <div className="text-center mt-4">
               <button
                 onClick={nextStep}
                 disabled={isTransitioning}
-                className="inline-flex items-center gap-3 px-8 py-4 bg-[#00abc8] hover:bg-[#00abc8]/90 text-white font-bold text-lg rounded-xl transition-all shadow-lg disabled:opacity-50"
+                className="text-gray-400 hover:text-gray-600 text-sm transition-colors"
               >
-                Continuar al siguiente paso
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
+                Ya he agendado mi llamada →
               </button>
             </div>
           </div>
@@ -239,7 +233,7 @@ export default function OnboardingPage() {
               <div className="border-2 border-dashed border-gray-300 rounded-2xl p-8">
                 <div className="flex justify-center mb-6">
                   <span className="bg-[#0a2540] text-white px-6 py-2 rounded-full font-bold">
-                    🔥 MEJOR OPCIÓN 🔥
+                    MEJOR OPCIÓN
                   </span>
                 </div>
 
@@ -247,7 +241,7 @@ export default function OnboardingPage() {
                   Esto es lo que te llevas en el plan anual...
                 </h3>
 
-                <ul className="space-y-4 mb-8">
+                <ul className="space-y-4">
                   <li className="flex gap-3">
                     <span className="text-[#00abc8] font-bold">•</span>
                     <span><strong>12 meses de acceso ilimitado al CRM Aducion</strong> (+300 usuarios activos)</span>
@@ -279,19 +273,19 @@ export default function OnboardingPage() {
                   </li>
                 </ul>
 
-                <button className="w-full bg-[#0a2540] hover:bg-[#0a2540]/90 text-white font-bold py-4 rounded-xl transition-all">
-                  QUIERO MI PLAN ANUAL GRATIS
-                </button>
-
                 {/* Guarantee */}
                 <div className="mt-8 border border-gray-200 rounded-xl p-6 text-center">
-                  <div className="flex justify-center gap-4 mb-4">
-                    <span className="text-4xl">🛡️</span>
+                  <div className="flex justify-center items-center gap-4 mb-4">
+                    <svg className="w-10 h-10 text-[#0a2540]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
                     <div>
                       <p className="font-bold text-lg">GARANTÍA ANTIDISGUSTO</p>
                       <p className="text-sm text-gray-500">TU DINERO EN TU BOLSILLO</p>
                     </div>
-                    <span className="text-4xl">✅</span>
+                    <svg className="w-10 h-10 text-[#00abc8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
                   </div>
                   <p className="text-sm text-gray-600">
                     Estamos tan seguros de que este CRM y este programa transformará tu negocio inmobiliario,
@@ -303,10 +297,10 @@ export default function OnboardingPage() {
               </div>
 
               {/* Right side - Payment Form */}
-              <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+              <div>
                 <iframe
                   src="https://link.fastpaydirect.com/payment-link/68c1632267ee3b5a4f68f3e6"
-                  style={{ width: "100%", height: "800px", border: "none" }}
+                  style={{ width: "100%", height: "1000px", border: "none" }}
                   title="Checkout CRM"
                 />
               </div>
@@ -316,7 +310,7 @@ export default function OnboardingPage() {
               <button
                 onClick={nextStep}
                 disabled={isTransitioning}
-                className="text-gray-500 hover:text-gray-700 transition-colors"
+                className="text-gray-400 hover:text-gray-600 text-sm transition-colors"
               >
                 Saltar este paso →
               </button>
@@ -368,10 +362,10 @@ export default function OnboardingPage() {
               Completa el formulario para acceder a Skool
             </p>
 
-            <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+            <div>
               <iframe
                 src="https://api.leadconnectorhq.com/widget/form/aqt133DOqObX5SzrfMvH"
-                style={{ width: "100%", height: "490px", border: "none", borderRadius: "3px" }}
+                style={{ width: "100%", height: "550px", border: "none" }}
                 id="inline-aqt133DOqObX5SzrfMvH"
                 data-layout="{'id':'INLINE'}"
                 data-trigger-type="alwaysShow"
@@ -382,16 +376,13 @@ export default function OnboardingPage() {
               />
             </div>
 
-            <div className="text-center">
+            <div className="text-center mt-4">
               <button
                 onClick={nextStep}
                 disabled={isTransitioning}
-                className="inline-flex items-center gap-3 px-8 py-4 bg-[#00abc8] hover:bg-[#00abc8]/90 text-white font-bold text-lg rounded-xl transition-all shadow-lg disabled:opacity-50"
+                className="text-gray-400 hover:text-gray-600 text-sm transition-colors"
               >
-                Continuar al siguiente paso
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
+                He completado el formulario →
               </button>
             </div>
           </div>
