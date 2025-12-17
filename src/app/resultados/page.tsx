@@ -380,7 +380,7 @@ export default function ResultadosPage() {
               Únete a las más de 500 inmobiliarias que ya están creciendo con nosotros.
             </p>
             <Link
-              href="/#contacto"
+              href="/agenda-web"
               className="btn btn-cyan"
             >
               Comprueba si cualificas

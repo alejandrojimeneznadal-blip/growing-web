@@ -464,7 +464,7 @@ export default function Hero() {
             </p>
 
             <div className="mt-10">
-              <Link href="#contacto" className="btn btn-primary hero-btn relative overflow-hidden">
+              <Link href="/agenda-web" className="btn btn-primary hero-btn relative overflow-hidden">
                 <span className="relative z-10 flex items-center gap-2">
                   Comprueba si cualificas
                   <svg className="w-4 h-4 arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">

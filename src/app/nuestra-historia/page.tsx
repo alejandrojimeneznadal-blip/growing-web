@@ -260,7 +260,7 @@ export default function NuestraHistoriaPage() {
               Estamos preparados para ayudarte a convertir tu inmobiliaria en un referente imparable del sector.
             </p>
             <Link
-              href="/#contacto"
+              href="/agenda-web"
               className="btn btn-primary"
             >
               Comprueba si cualificas

@@ -60,7 +60,7 @@ export default function Header() {
 
           {/* CTA Button */}
           <div className="hidden lg:block">
-            <Link href="#contacto" className="btn btn-primary text-sm py-3">
+            <Link href="/agenda-web" className="btn btn-primary text-sm py-3">
               Comprueba si cualificas
               <svg className="w-4 h-4 arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -122,7 +122,7 @@ export default function Header() {
                   Iniciar Sesión
                 </Link>
                 <Link
-                  href="#contacto"
+                  href="/agenda-web"
                   className="btn btn-primary w-full justify-center"
                   onClick={() => setIsMenuOpen(false)}
                 >

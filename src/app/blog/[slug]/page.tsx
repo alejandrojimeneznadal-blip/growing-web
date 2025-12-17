@@ -327,7 +327,7 @@ export default function BlogPostPage() {
               Descubre si cualificas para nuestro programa de transformación.
             </p>
             <Link
-              href="/#contacto"
+              href="/agenda-web"
               className="inline-flex items-center gap-2 px-8 py-4 bg-[#00abc8] hover:bg-[#00c4e4] text-white font-semibold rounded-xl transition-colors"
             >
               Comprueba si cualificas
