@@ -105,9 +105,9 @@ export default function FunnelPage() {
             <div className="bg-black rounded-2xl overflow-hidden shadow-2xl mb-8">
               <div className="aspect-video">
                 <iframe
-                  src="https://www.youtube.com/embed/fJXKNk7d4AU?rel=0&modestbranding=1"
+                  src="https://fast.wistia.net/embed/iframe/or820ctg3q?seo=false&videoFoam=true"
                   title="VSL Growing Inmobiliario"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allow="autoplay; fullscreen"
                   allowFullScreen
                   className="w-full h-full"
                 />
