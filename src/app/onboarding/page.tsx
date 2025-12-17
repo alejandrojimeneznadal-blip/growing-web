@@ -36,15 +36,28 @@ export default function OnboardingPage() {
   // Listen for GHL form/survey/calendar completion events
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
-      // Log all messages to debug
-      console.log("PostMessage received:", event.data);
-
-      // Check for various GHL completion events
       const data = event.data;
 
+      // Skip if no data
+      if (!data) return;
+
+      // Log for debugging (only non-iFrameSizer messages to reduce noise)
+      if (typeof data === "string" && !data.includes("[iFrameSizer]")) {
+        console.log("PostMessage received:", data);
+      } else if (typeof data === "object") {
+        console.log("PostMessage received:", data);
+      }
+
+      // Check for GHL form submission patterns
       if (typeof data === "string") {
-        // Some GHL events come as strings
-        if (data.includes("form_submitted") || data.includes("survey_submitted") || data.includes("booking_confirmed")) {
+        // Detect form/survey submission
+        if (
+          data.includes("form_submitted") ||
+          data.includes("survey_submitted") ||
+          data.includes("booking_confirmed") ||
+          data.includes("set-sticky-contacts")
+        ) {
+          console.log("Form submission detected, advancing to next step");
           nextStep();
         }
       } else if (typeof data === "object" && data !== null) {
@@ -59,8 +72,10 @@ export default function OnboardingPage() {
           data.action === "submit" ||
           data.formSubmitted === true ||
           data.surveySubmitted === true ||
-          data.bookingConfirmed === true
+          data.bookingConfirmed === true ||
+          data["set-sticky-contacts"] !== undefined
         ) {
+          console.log("Form submission detected, advancing to next step");
           nextStep();
         }
       }
@@ -205,6 +220,7 @@ export default function OnboardingPage() {
                 scrolling="no"
                 id="q7kCv4N5jFV395ebOssY"
                 title="Formulario de onboarding"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
               />
             </div>
 
@@ -237,6 +253,7 @@ export default function OnboardingPage() {
                 scrolling="no"
                 id="calendar-onboarding"
                 title="Calendario de onboarding"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
               />
             </div>
 
@@ -410,6 +427,7 @@ export default function OnboardingPage() {
                 data-deactivation-type="neverDeactivate"
                 data-form-name="Form Emails para acceso -> Skool"
                 title="Form Emails para acceso -> Skool"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
               />
             </div>
 
