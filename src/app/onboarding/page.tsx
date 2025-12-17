@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -19,6 +19,19 @@ export default function OnboardingPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showContent, setShowContent] = useState(true);
+
+  // Refs to avoid stale closure issues
+  const currentStepRef = useRef(currentStep);
+  const isTransitioningRef = useRef(isTransitioning);
+
+  // Keep refs in sync
+  useEffect(() => {
+    currentStepRef.current = currentStep;
+  }, [currentStep]);
+
+  useEffect(() => {
+    isTransitioningRef.current = isTransitioning;
+  }, [isTransitioning]);
 
   // Load GoHighLevel script
   useEffect(() => {
@@ -42,7 +55,12 @@ export default function OnboardingPage() {
       if (!data) return;
 
       // Convert to string for easier checking
-      const dataStr = typeof data === "string" ? data : JSON.stringify(data);
+      let dataStr = "";
+      try {
+        dataStr = typeof data === "string" ? data : JSON.stringify(data);
+      } catch {
+        return; // Skip if can't stringify
+      }
 
       // Log all non-iFrameSizer messages for debugging
       if (!dataStr.includes("[iFrameSizer]")) {
@@ -69,7 +87,21 @@ export default function OnboardingPage() {
 
       if (isCompletion) {
         console.log("✅ Form completion detected! Advancing to next step...");
-        nextStep();
+        // Use ref to get current step and advance
+        if (currentStepRef.current < STEPS.length && !isTransitioningRef.current) {
+          setIsTransitioning(true);
+          setShowContent(false);
+
+          setTimeout(() => {
+            setCurrentStep(currentStepRef.current + 1);
+            window.scrollTo({ top: 0, behavior: "instant" });
+
+            setTimeout(() => {
+              setShowContent(true);
+              setIsTransitioning(false);
+            }, 50);
+          }, 300);
+        }
         return;
       }
 
@@ -88,17 +120,31 @@ export default function OnboardingPage() {
           data.bookingConfirmed === true
         ) {
           console.log("✅ Form completion detected (object)! Advancing to next step...");
-          nextStep();
+          // Use ref to get current step and advance
+          if (currentStepRef.current < STEPS.length && !isTransitioningRef.current) {
+            setIsTransitioning(true);
+            setShowContent(false);
+
+            setTimeout(() => {
+              setCurrentStep(currentStepRef.current + 1);
+              window.scrollTo({ top: 0, behavior: "instant" });
+
+              setTimeout(() => {
+                setShowContent(true);
+                setIsTransitioning(false);
+              }, 50);
+            }, 300);
+          }
         }
       }
     };
 
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
-  }, [currentStep]);
+  }, []);
 
-  const goToStep = (step: number) => {
-    if (step === currentStep || isTransitioning) return;
+  const goToStep = useCallback((step: number) => {
+    if (step === currentStepRef.current || isTransitioningRef.current) return;
 
     setIsTransitioning(true);
     setShowContent(false);
@@ -112,13 +158,13 @@ export default function OnboardingPage() {
         setIsTransitioning(false);
       }, 50);
     }, 300);
-  };
+  }, []);
 
-  const nextStep = () => {
-    if (currentStep < STEPS.length) {
-      goToStep(currentStep + 1);
+  const nextStep = useCallback(() => {
+    if (currentStepRef.current < STEPS.length) {
+      goToStep(currentStepRef.current + 1);
     }
-  };
+  }, [goToStep]);
 
   return (
     <div className="min-h-screen bg-white">
