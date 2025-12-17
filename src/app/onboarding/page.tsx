@@ -41,27 +41,40 @@ export default function OnboardingPage() {
       // Skip if no data
       if (!data) return;
 
-      // Log for debugging (only non-iFrameSizer messages to reduce noise)
-      if (typeof data === "string" && !data.includes("[iFrameSizer]")) {
-        console.log("PostMessage received:", data);
-      } else if (typeof data === "object") {
-        console.log("PostMessage received:", data);
+      // Convert to string for easier checking
+      const dataStr = typeof data === "string" ? data : JSON.stringify(data);
+
+      // Log all non-iFrameSizer messages for debugging
+      if (!dataStr.includes("[iFrameSizer]")) {
+        console.log("PostMessage received:", data, "| Type:", typeof data);
       }
 
-      // Check for GHL form submission patterns
-      if (typeof data === "string") {
-        // Detect form/survey submission
-        if (
-          data.includes("form_submitted") ||
-          data.includes("survey_submitted") ||
-          data.includes("booking_confirmed") ||
-          data.includes("set-sticky-contacts")
-        ) {
-          console.log("Form submission detected, advancing to next step");
-          nextStep();
-        }
-      } else if (typeof data === "object" && data !== null) {
-        // Check for common GHL event patterns
+      // Check for various completion patterns
+      const completionPatterns = [
+        "form_submitted",
+        "survey_submitted",
+        "booking_confirmed",
+        "set-sticky-contacts",
+        "formSubmitted",
+        "surveySubmitted",
+        "thank_you",
+        "success",
+        "completed"
+      ];
+
+      // Check if any pattern matches
+      const isCompletion = completionPatterns.some(pattern =>
+        dataStr.toLowerCase().includes(pattern.toLowerCase())
+      );
+
+      if (isCompletion) {
+        console.log("✅ Form completion detected! Advancing to next step...");
+        nextStep();
+        return;
+      }
+
+      // Also check for object-based events
+      if (typeof data === "object" && data !== null) {
         if (
           data.type === "form_submitted" ||
           data.type === "survey_submitted" ||
@@ -72,10 +85,9 @@ export default function OnboardingPage() {
           data.action === "submit" ||
           data.formSubmitted === true ||
           data.surveySubmitted === true ||
-          data.bookingConfirmed === true ||
-          data["set-sticky-contacts"] !== undefined
+          data.bookingConfirmed === true
         ) {
-          console.log("Form submission detected, advancing to next step");
+          console.log("✅ Form completion detected (object)! Advancing to next step...");
           nextStep();
         }
       }
