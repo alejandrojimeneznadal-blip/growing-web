@@ -33,6 +33,43 @@ export default function OnboardingPage() {
     };
   }, []);
 
+  // Listen for GHL form/survey/calendar completion events
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      // Log all messages to debug
+      console.log("PostMessage received:", event.data);
+
+      // Check for various GHL completion events
+      const data = event.data;
+
+      if (typeof data === "string") {
+        // Some GHL events come as strings
+        if (data.includes("form_submitted") || data.includes("survey_submitted") || data.includes("booking_confirmed")) {
+          nextStep();
+        }
+      } else if (typeof data === "object" && data !== null) {
+        // Check for common GHL event patterns
+        if (
+          data.type === "form_submitted" ||
+          data.type === "survey_submitted" ||
+          data.type === "booking_confirmed" ||
+          data.event === "form_submitted" ||
+          data.event === "survey_submitted" ||
+          data.event === "booking_confirmed" ||
+          data.action === "submit" ||
+          data.formSubmitted === true ||
+          data.surveySubmitted === true ||
+          data.bookingConfirmed === true
+        ) {
+          nextStep();
+        }
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, [currentStep]);
+
   const goToStep = (step: number) => {
     if (step === currentStep || isTransitioning) return;
 
@@ -168,7 +205,6 @@ export default function OnboardingPage() {
                 scrolling="no"
                 id="q7kCv4N5jFV395ebOssY"
                 title="Formulario de onboarding"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
               />
             </div>
 
@@ -201,7 +237,6 @@ export default function OnboardingPage() {
                 scrolling="no"
                 id="calendar-onboarding"
                 title="Calendario de onboarding"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
               />
             </div>
 
@@ -375,7 +410,6 @@ export default function OnboardingPage() {
                 data-deactivation-type="neverDeactivate"
                 data-form-name="Form Emails para acceso -> Skool"
                 title="Form Emails para acceso -> Skool"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
               />
             </div>
 
