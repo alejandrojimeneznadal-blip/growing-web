@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Script from "next/script";
 
 export default function FunnelPage() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [videoWatched, setVideoWatched] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showContent, setShowContent] = useState(true);
 
   // Load GoHighLevel script
   useEffect(() => {
@@ -22,17 +22,38 @@ export default function FunnelPage() {
     }
   }, [currentStep]);
 
-  const handleVideoEnd = () => {
-    setVideoWatched(true);
+  const goToStep2 = () => {
+    setIsTransitioning(true);
+    setShowContent(false);
+
+    setTimeout(() => {
+      setCurrentStep(2);
+      window.scrollTo({ top: 0, behavior: "instant" });
+
+      setTimeout(() => {
+        setShowContent(true);
+        setIsTransitioning(false);
+      }, 50);
+    }, 400);
   };
 
-  const goToStep2 = () => {
-    setCurrentStep(2);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  const goToStep1 = () => {
+    setIsTransitioning(true);
+    setShowContent(false);
+
+    setTimeout(() => {
+      setCurrentStep(1);
+      window.scrollTo({ top: 0, behavior: "instant" });
+
+      setTimeout(() => {
+        setShowContent(true);
+        setIsTransitioning(false);
+      }, 50);
+    }, 400);
   };
 
   return (
-    <div className="min-h-screen bg-[#0a2540] relative">
+    <div className="min-h-screen bg-[#0a2540] relative overflow-hidden">
       {/* Background pattern */}
       <div
         className="absolute inset-0 opacity-10"
@@ -57,7 +78,13 @@ export default function FunnelPage() {
 
         {/* Step 1: Video */}
         {currentStep === 1 && (
-          <div className="max-w-4xl mx-auto">
+          <div
+            className={`max-w-4xl mx-auto transition-all duration-400 ease-out ${
+              showContent
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
             {/* Header */}
             <div className="text-center mb-8">
               <p className="text-white/60 text-sm tracking-wider uppercase mb-4">
@@ -91,7 +118,8 @@ export default function FunnelPage() {
             <div className="text-center">
               <button
                 onClick={goToStep2}
-                className="inline-flex items-center gap-3 px-8 py-4 bg-[#00abc8] hover:bg-[#00c4e4] text-white font-bold text-lg rounded-xl transition-all transform hover:scale-105 shadow-lg shadow-[#00abc8]/30"
+                disabled={isTransitioning}
+                className="inline-flex items-center gap-3 px-8 py-4 bg-[#00abc8] hover:bg-[#00c4e4] text-white font-bold text-lg rounded-xl transition-all transform hover:scale-105 shadow-lg shadow-[#00abc8]/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
                 Agendar Mi Llamada Gratuita
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -107,7 +135,13 @@ export default function FunnelPage() {
 
         {/* Step 2: Calendar */}
         {currentStep === 2 && (
-          <div className="max-w-5xl mx-auto">
+          <div
+            className={`max-w-5xl mx-auto transition-all duration-400 ease-out ${
+              showContent
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 -translate-y-8"
+            }`}
+          >
             {/* Header */}
             <div className="text-center mb-8">
               <p className="text-lg mb-2">
@@ -135,8 +169,9 @@ export default function FunnelPage() {
             {/* Back button */}
             <div className="text-center mt-8">
               <button
-                onClick={() => setCurrentStep(1)}
-                className="text-white/60 hover:text-white transition-colors flex items-center gap-2 mx-auto"
+                onClick={goToStep1}
+                disabled={isTransitioning}
+                className="text-white/60 hover:text-white transition-colors flex items-center gap-2 mx-auto disabled:opacity-50"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -162,6 +197,12 @@ export default function FunnelPage() {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .duration-400 {
+          transition-duration: 400ms;
+        }
+      `}</style>
     </div>
   );
 }
