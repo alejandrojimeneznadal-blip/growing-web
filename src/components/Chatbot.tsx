@@ -18,7 +18,7 @@ const generateSessionId = () => {
 };
 
 // Páginas donde NO se muestra el chatbot
-const HIDDEN_PATHS = ["/agenda-web", "/onboarding"];
+const HIDDEN_PATHS = ["/agenda-web", "/onboarding", "/login"];
 
 export default function Chatbot() {
   const pathname = usePathname();

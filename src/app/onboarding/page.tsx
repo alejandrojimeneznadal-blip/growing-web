@@ -550,9 +550,13 @@ export default function OnboardingPage() {
             <div className="grid md:grid-cols-2 gap-8">
               {/* GoHighLevel */}
               <div className="bg-gray-50 rounded-2xl p-8 text-center">
-                <div className="w-20 h-20 bg-[#0a2540] rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <span className="text-white text-3xl font-bold">HL</span>
-                </div>
+                <Image
+                  src="/gohighlevel-icon.jpg"
+                  alt="GoHighLevel"
+                  width={80}
+                  height={80}
+                  className="w-20 h-20 rounded-2xl mx-auto mb-4"
+                />
                 <h3 className="text-xl font-bold text-[#0a2540] mb-2">CRM Aducion</h3>
                 <p className="text-gray-500 text-sm mb-6">GoHighLevel - Tu CRM en el móvil</p>
 
@@ -584,9 +588,13 @@ export default function OnboardingPage() {
 
               {/* Skool */}
               <div className="bg-gray-50 rounded-2xl p-8 text-center">
-                <div className="w-20 h-20 bg-[#00abc8] rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <span className="text-white text-3xl font-bold">S</span>
-                </div>
+                <Image
+                  src="/skool-icon.webp"
+                  alt="Skool"
+                  width={80}
+                  height={80}
+                  className="w-20 h-20 rounded-2xl mx-auto mb-4"
+                />
                 <h3 className="text-xl font-bold text-[#0a2540] mb-2">Comunidad Skool</h3>
                 <p className="text-gray-500 text-sm mb-6">Accede a la comunidad desde el móvil</p>
 

@@ -3,6 +3,83 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
+// ==================== BLACKJACK TYPES & CONSTANTS ====================
+
+type Suit = "hearts" | "diamonds" | "clubs" | "spades";
+type CardValue = "A" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "J" | "Q" | "K";
+
+interface Card {
+  suit: Suit;
+  value: CardValue;
+  hidden?: boolean;
+}
+
+const SUITS: Suit[] = ["hearts", "diamonds", "clubs", "spades"];
+const VALUES: CardValue[] = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+
+const SUIT_SYMBOLS: Record<Suit, string> = {
+  hearts: "♥",
+  diamonds: "♦",
+  clubs: "♣",
+  spades: "♠",
+};
+
+const SUIT_COLORS: Record<Suit, string> = {
+  hearts: "text-red-500",
+  diamonds: "text-red-500",
+  clubs: "text-gray-900",
+  spades: "text-gray-900",
+};
+
+function createDeck(): Card[] {
+  const deck: Card[] = [];
+  for (const suit of SUITS) {
+    for (const value of VALUES) {
+      deck.push({ suit, value });
+    }
+  }
+  return deck;
+}
+
+function shuffleDeck(deck: Card[]): Card[] {
+  const shuffled = [...deck];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+function getCardValue(card: Card): number {
+  if (card.value === "A") return 11;
+  if (["K", "Q", "J"].includes(card.value)) return 10;
+  return parseInt(card.value);
+}
+
+function calculateHandValue(hand: Card[]): number {
+  let value = 0;
+  let aces = 0;
+
+  for (const card of hand) {
+    if (card.hidden) continue;
+    value += getCardValue(card);
+    if (card.value === "A") aces++;
+  }
+
+  while (value > 21 && aces > 0) {
+    value -= 10;
+    aces--;
+  }
+
+  return value;
+}
+
+function isBlackjack(hand: Card[]): boolean {
+  return hand.length === 2 && calculateHandValue(hand) === 21;
+}
+
+// ==================== ROULETTE CONSTANTS ====================
+
 const WHEEL_NUMBERS = [
   0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10,
   5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26
@@ -757,5 +834,460 @@ export default function RoulettePage() {
     );
   }
 
-  return <RouletteGame />;
+  return <CasinoGames />;
+}
+
+// ==================== BLACKJACK GAME ====================
+
+function PlayingCard({ card, index = 0 }: { card: Card; index?: number }) {
+  if (card.hidden) {
+    return (
+      <div
+        className="relative w-20 h-28 rounded-lg shadow-xl transition-all duration-300"
+        style={{
+          background: "linear-gradient(135deg, #1a365d 0%, #2c5282 50%, #1a365d 100%)",
+          transform: `translateX(${index * -40}px)`,
+        }}
+      >
+        <div className="absolute inset-2 rounded border-2 border-white/20 flex items-center justify-center">
+          <div className="text-4xl text-white/30">?</div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="relative w-20 h-28 bg-white rounded-lg shadow-xl transition-all duration-300"
+      style={{ transform: `translateX(${index * -40}px)` }}
+    >
+      <div className="absolute inset-1 flex flex-col justify-between p-1">
+        <div className={`text-left ${SUIT_COLORS[card.suit]}`}>
+          <div className="text-lg font-bold leading-none">{card.value}</div>
+          <div className="text-lg leading-none">{SUIT_SYMBOLS[card.suit]}</div>
+        </div>
+        <div className={`text-5xl text-center ${SUIT_COLORS[card.suit]}`}>
+          {SUIT_SYMBOLS[card.suit]}
+        </div>
+        <div className={`text-right rotate-180 ${SUIT_COLORS[card.suit]}`}>
+          <div className="text-lg font-bold leading-none">{card.value}</div>
+          <div className="text-lg leading-none">{SUIT_SYMBOLS[card.suit]}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BlackjackChipSelector({ selectedChip, onSelect, balance }: { selectedChip: number; onSelect: (v: number) => void; balance: number }) {
+  const chips = [5, 10, 25, 50, 100];
+
+  return (
+    <div className="flex gap-2 justify-center">
+      {chips.map(value => (
+        <button
+          key={value}
+          onClick={() => onSelect(value)}
+          disabled={balance < value}
+          className={`w-11 h-11 rounded-full font-bold text-xs transition-all ${
+            selectedChip === value ? "ring-4 ring-yellow-400 scale-110" : "hover:scale-105"
+          } ${balance < value ? "opacity-40" : ""} ${
+            value === 5 ? "bg-gradient-to-b from-red-400 to-red-600 text-white" :
+            value === 10 ? "bg-gradient-to-b from-blue-400 to-blue-600 text-white" :
+            value === 25 ? "bg-gradient-to-b from-green-400 to-green-600 text-white" :
+            value === 50 ? "bg-gradient-to-b from-purple-400 to-purple-600 text-white" :
+            "bg-gradient-to-b from-gray-800 to-black text-yellow-400 border-2 border-yellow-500"
+          }`}
+          style={{ boxShadow: "inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.3)" }}
+        >
+          ${value}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+type BlackjackGameState = "betting" | "playing" | "dealerTurn" | "finished";
+
+function BlackjackGame() {
+  const [balance, setBalance] = useState(1000);
+  const [bet, setBet] = useState(0);
+  const [selectedChip, setSelectedChip] = useState(10);
+  const [deck, setDeck] = useState<Card[]>([]);
+  const [playerHand, setPlayerHand] = useState<Card[]>([]);
+  const [dealerHand, setDealerHand] = useState<Card[]>([]);
+  const [gameState, setGameState] = useState<BlackjackGameState>("betting");
+  const [message, setMessage] = useState("Haz tu apuesta para empezar");
+  const [lastWin, setLastWin] = useState<number | null>(null);
+
+  const playerValue = calculateHandValue(playerHand);
+  const dealerValue = calculateHandValue(dealerHand);
+
+  const addToBet = () => {
+    if (balance >= selectedChip) {
+      setBet(b => b + selectedChip);
+      setBalance(b => b - selectedChip);
+    }
+  };
+
+  const clearBet = () => {
+    setBalance(b => b + bet);
+    setBet(0);
+  };
+
+  const deal = () => {
+    if (bet === 0) return;
+
+    const newDeck = shuffleDeck(createDeck());
+    const pHand = [newDeck[0], newDeck[2]];
+    const dHand = [newDeck[1], { ...newDeck[3], hidden: true }];
+
+    setDeck(newDeck.slice(4));
+    setPlayerHand(pHand);
+    setDealerHand(dHand);
+    setGameState("playing");
+    setMessage("Tu turno");
+    setLastWin(null);
+
+    // Check for player blackjack
+    if (isBlackjack(pHand)) {
+      setTimeout(() => {
+        const revealedDealerHand = dHand.map(c => ({ ...c, hidden: false }));
+        setDealerHand(revealedDealerHand);
+
+        if (isBlackjack(revealedDealerHand)) {
+          setMessage("¡Empate! Ambos tienen Blackjack");
+          setBalance(b => b + bet);
+          setLastWin(0);
+        } else {
+          const winAmount = Math.floor(bet * 2.5);
+          setMessage("¡BLACKJACK! ¡Ganaste!");
+          setBalance(b => b + winAmount);
+          setLastWin(winAmount - bet);
+        }
+        setGameState("finished");
+      }, 500);
+    }
+  };
+
+  const hit = () => {
+    if (gameState !== "playing" || deck.length === 0) return;
+
+    const newCard = deck[0];
+    const newHand = [...playerHand, newCard];
+    setPlayerHand(newHand);
+    setDeck(deck.slice(1));
+
+    const newValue = calculateHandValue(newHand);
+    if (newValue > 21) {
+      setMessage("¡Te pasaste! El crupier gana");
+      setGameState("finished");
+      setLastWin(-bet);
+    }
+  };
+
+  const stand = () => {
+    if (gameState !== "playing") return;
+
+    setGameState("dealerTurn");
+    setMessage("Turno del crupier...");
+
+    // Reveal dealer's hidden card
+    const revealedHand = dealerHand.map(c => ({ ...c, hidden: false }));
+    setDealerHand(revealedHand);
+
+    // Dealer draws
+    let currentDeck = [...deck];
+    let currentHand = [...revealedHand];
+
+    const drawCards = () => {
+      const dealerVal = calculateHandValue(currentHand);
+
+      if (dealerVal < 17 && currentDeck.length > 0) {
+        currentHand = [...currentHand, currentDeck[0]];
+        currentDeck = currentDeck.slice(1);
+        setDealerHand([...currentHand]);
+        setDeck([...currentDeck]);
+        setTimeout(drawCards, 700);
+      } else {
+        // Determine winner
+        const finalDealerValue = calculateHandValue(currentHand);
+        const finalPlayerValue = calculateHandValue(playerHand);
+
+        setTimeout(() => {
+          if (finalDealerValue > 21) {
+            setMessage("¡El crupier se pasó! ¡Ganaste!");
+            setBalance(b => b + bet * 2);
+            setLastWin(bet);
+          } else if (finalPlayerValue > finalDealerValue) {
+            setMessage("¡Ganaste!");
+            setBalance(b => b + bet * 2);
+            setLastWin(bet);
+          } else if (finalPlayerValue < finalDealerValue) {
+            setMessage("El crupier gana");
+            setLastWin(-bet);
+          } else {
+            setMessage("Empate");
+            setBalance(b => b + bet);
+            setLastWin(0);
+          }
+          setGameState("finished");
+        }, 300);
+      }
+    };
+
+    setTimeout(drawCards, 700);
+  };
+
+  const doubleDown = () => {
+    if (gameState !== "playing" || playerHand.length !== 2 || balance < bet) return;
+
+    setBalance(b => b - bet);
+    setBet(b => b * 2);
+
+    const newCard = deck[0];
+    const newHand = [...playerHand, newCard];
+    setPlayerHand(newHand);
+    setDeck(deck.slice(1));
+
+    const newValue = calculateHandValue(newHand);
+    if (newValue > 21) {
+      setMessage("¡Te pasaste! El crupier gana");
+      setGameState("finished");
+      setLastWin(-bet * 2);
+    } else {
+      // Auto-stand after double
+      setTimeout(() => {
+        setGameState("dealerTurn");
+        setMessage("Turno del crupier...");
+
+        const revealedHand = dealerHand.map(c => ({ ...c, hidden: false }));
+        setDealerHand(revealedHand);
+
+        let currentDeck = deck.slice(1);
+        let currentHand = [...revealedHand];
+
+        const drawCards = () => {
+          const dealerVal = calculateHandValue(currentHand);
+
+          if (dealerVal < 17 && currentDeck.length > 0) {
+            currentHand = [...currentHand, currentDeck[0]];
+            currentDeck = currentDeck.slice(1);
+            setDealerHand([...currentHand]);
+            setDeck([...currentDeck]);
+            setTimeout(drawCards, 700);
+          } else {
+            const finalDealerValue = calculateHandValue(currentHand);
+            const finalPlayerValue = calculateHandValue(newHand);
+            const totalBet = bet * 2;
+
+            setTimeout(() => {
+              if (finalDealerValue > 21) {
+                setMessage("¡El crupier se pasó! ¡Ganaste!");
+                setBalance(b => b + totalBet * 2);
+                setLastWin(totalBet);
+              } else if (finalPlayerValue > finalDealerValue) {
+                setMessage("¡Ganaste!");
+                setBalance(b => b + totalBet * 2);
+                setLastWin(totalBet);
+              } else if (finalPlayerValue < finalDealerValue) {
+                setMessage("El crupier gana");
+                setLastWin(-totalBet);
+              } else {
+                setMessage("Empate");
+                setBalance(b => b + totalBet);
+                setLastWin(0);
+              }
+              setGameState("finished");
+            }, 300);
+          }
+        };
+
+        setTimeout(drawCards, 700);
+      }, 500);
+    }
+  };
+
+  const newGame = () => {
+    setPlayerHand([]);
+    setDealerHand([]);
+    setBet(0);
+    setGameState("betting");
+    setMessage("Haz tu apuesta para empezar");
+    setLastWin(null);
+  };
+
+  return (
+    <div className="bg-gradient-to-b from-[#0f3d0f] via-[#1a5a1a] to-[#0f3d0f] py-12 px-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Title */}
+        <div className="text-center mb-8">
+          <h1 className="text-5xl lg:text-6xl font-bold text-white leading-none">
+            Growing
+          </h1>
+          <h2 className="text-3xl lg:text-4xl text-white/80 mt-1" style={{ fontFamily: 'Times New Roman, Times, serif', fontStyle: 'italic' }}>
+            Blackjack
+          </h2>
+        </div>
+
+        {/* Balance and Bet */}
+        <div className="flex justify-center gap-4 mb-6">
+          <div className="bg-black/40 backdrop-blur px-6 py-3 rounded-xl border border-white/10">
+            <span className="text-white/60 text-xs">Balance</span>
+            <p className="text-2xl font-bold text-yellow-400">${balance}</p>
+          </div>
+          {bet > 0 && (
+            <div className="bg-black/40 backdrop-blur px-6 py-3 rounded-xl border border-white/10">
+              <span className="text-white/60 text-xs">Apuesta</span>
+              <p className="text-2xl font-bold text-white">${bet}</p>
+            </div>
+          )}
+        </div>
+
+        {/* Game Table */}
+        <div className="bg-gradient-to-b from-green-800/50 to-green-900/50 rounded-3xl p-8 border-8 border-amber-900/80 shadow-2xl">
+          {/* Dealer Section */}
+          <div className="text-center mb-8">
+            <p className="text-white/60 text-sm mb-2">Crupier {gameState !== "betting" && `(${dealerHand.some(c => c.hidden) ? "?" : dealerValue})`}</p>
+            <div className="flex justify-center min-h-[112px]">
+              {dealerHand.length > 0 ? (
+                <div className="flex" style={{ marginLeft: `${(dealerHand.length - 1) * 20}px` }}>
+                  {dealerHand.map((card, i) => (
+                    <PlayingCard key={i} card={card} index={i} />
+                  ))}
+                </div>
+              ) : (
+                <div className="w-20 h-28 border-2 border-dashed border-white/20 rounded-lg" />
+              )}
+            </div>
+          </div>
+
+          {/* Message */}
+          <div className="text-center my-6">
+            <p className={`text-xl font-bold ${
+              lastWin !== null && lastWin > 0 ? "text-green-400" :
+              lastWin !== null && lastWin < 0 ? "text-red-400" :
+              "text-white"
+            }`}>
+              {message}
+              {lastWin !== null && lastWin !== 0 && (
+                <span className="ml-2">
+                  ({lastWin > 0 ? "+" : ""}{lastWin}$)
+                </span>
+              )}
+            </p>
+          </div>
+
+          {/* Player Section */}
+          <div className="text-center">
+            <div className="flex justify-center min-h-[112px] mb-2">
+              {playerHand.length > 0 ? (
+                <div className="flex" style={{ marginLeft: `${(playerHand.length - 1) * 20}px` }}>
+                  {playerHand.map((card, i) => (
+                    <PlayingCard key={i} card={card} index={i} />
+                  ))}
+                </div>
+              ) : (
+                <div className="w-20 h-28 border-2 border-dashed border-white/20 rounded-lg" />
+              )}
+            </div>
+            <p className="text-white/60 text-sm">Tu mano {gameState !== "betting" && `(${playerValue})`}</p>
+          </div>
+        </div>
+
+        {/* Controls */}
+        <div className="mt-6">
+          {gameState === "betting" && (
+            <div className="space-y-4">
+              <BlackjackChipSelector selectedChip={selectedChip} onSelect={setSelectedChip} balance={balance} />
+              <div className="flex justify-center gap-3">
+                <button
+                  onClick={addToBet}
+                  disabled={balance < selectedChip}
+                  className="px-6 py-3 bg-gradient-to-b from-yellow-500 to-yellow-700 disabled:opacity-40 text-black font-bold rounded-lg"
+                >
+                  Apostar ${selectedChip}
+                </button>
+                {bet > 0 && (
+                  <>
+                    <button
+                      onClick={clearBet}
+                      className="px-6 py-3 bg-gradient-to-b from-red-500 to-red-700 text-white font-bold rounded-lg"
+                    >
+                      Limpiar
+                    </button>
+                    <button
+                      onClick={deal}
+                      className="px-8 py-3 bg-gradient-to-b from-green-500 to-green-700 text-white font-bold rounded-lg text-lg"
+                    >
+                      REPARTIR
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+
+          {gameState === "playing" && (
+            <div className="flex justify-center gap-3">
+              <button
+                onClick={hit}
+                className="px-8 py-3 bg-gradient-to-b from-blue-500 to-blue-700 text-white font-bold rounded-lg"
+              >
+                PEDIR
+              </button>
+              <button
+                onClick={stand}
+                className="px-8 py-3 bg-gradient-to-b from-orange-500 to-orange-700 text-white font-bold rounded-lg"
+              >
+                PLANTARSE
+              </button>
+              {playerHand.length === 2 && balance >= bet && (
+                <button
+                  onClick={doubleDown}
+                  className="px-8 py-3 bg-gradient-to-b from-purple-500 to-purple-700 text-white font-bold rounded-lg"
+                >
+                  DOBLAR
+                </button>
+              )}
+            </div>
+          )}
+
+          {gameState === "dealerTurn" && (
+            <div className="flex justify-center">
+              <div className="px-8 py-3 bg-black/40 text-white/60 font-bold rounded-lg">
+                Esperando al crupier...
+              </div>
+            </div>
+          )}
+
+          {gameState === "finished" && (
+            <div className="flex justify-center">
+              <button
+                onClick={newGame}
+                className="px-10 py-3 bg-gradient-to-b from-[#00abc8] to-[#008fa8] text-white font-bold rounded-lg text-lg"
+              >
+                NUEVA PARTIDA
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Rules */}
+        <p className="mt-6 text-white/40 text-xs text-center">
+          Blackjack paga 3:2 | El crupier pide con 16 y se planta con 17 | Doblar solo con 2 cartas
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ==================== FULL CASINO PAGE ====================
+
+function CasinoGames() {
+  return (
+    <div>
+      <RouletteGame />
+      <BlackjackGame />
+    </div>
+  );
 }
