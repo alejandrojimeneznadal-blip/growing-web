@@ -997,13 +997,13 @@ function BlackjackGame() {
 
     // Dealer draws
     let currentDeck = [...deck];
-    let currentHand = [...revealedHand];
+    let currentHand: Card[] = revealedHand.map(c => ({ ...c }));
 
     const drawCards = () => {
       const dealerVal = calculateHandValue(currentHand);
 
       if (dealerVal < 17 && currentDeck.length > 0) {
-        currentHand = [...currentHand, currentDeck[0]];
+        currentHand = [...currentHand, { ...currentDeck[0], hidden: false }];
         currentDeck = currentDeck.slice(1);
         setDealerHand([...currentHand]);
         setDeck([...currentDeck]);
@@ -1064,13 +1064,13 @@ function BlackjackGame() {
         setDealerHand(revealedHand);
 
         let currentDeck = deck.slice(1);
-        let currentHand = [...revealedHand];
+        let currentHand: Card[] = revealedHand.map(c => ({ ...c }));
 
         const drawCards = () => {
           const dealerVal = calculateHandValue(currentHand);
 
           if (dealerVal < 17 && currentDeck.length > 0) {
-            currentHand = [...currentHand, currentDeck[0]];
+            currentHand = [...currentHand, { ...currentDeck[0], hidden: false }];
             currentDeck = currentDeck.slice(1);
             setDealerHand([...currentHand]);
             setDeck([...currentDeck]);
