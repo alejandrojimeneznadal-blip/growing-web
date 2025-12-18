@@ -12,6 +12,7 @@ interface Card {
   suit: Suit;
   value: CardValue;
   hidden?: boolean;
+  isNew?: boolean;
 }
 
 const SUITS: Suit[] = ["hearts", "diamonds", "clubs", "spades"];
@@ -839,14 +840,30 @@ export default function RoulettePage() {
 
 // ==================== BLACKJACK GAME ====================
 
-function PlayingCard({ card, index = 0 }: { card: Card; index?: number }) {
+function PlayingCard({ card, index = 0, isDealer = false }: { card: Card; index?: number; isDealer?: boolean }) {
+  const [isAnimating, setIsAnimating] = useState(card.isNew ?? false);
+
+  useEffect(() => {
+    if (card.isNew) {
+      setIsAnimating(true);
+      const timer = setTimeout(() => setIsAnimating(false), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [card.isNew]);
+
+  const baseStyle = {
+    transform: `translateX(${index * -40}px) ${isAnimating ? `translateY(${isDealer ? '-50px' : '50px'}) scale(0.8)` : 'translateY(0) scale(1)'}`,
+    opacity: isAnimating ? 0 : 1,
+    transition: 'transform 0.3s ease-out, opacity 0.3s ease-out',
+  };
+
   if (card.hidden) {
     return (
       <div
-        className="relative w-20 h-28 rounded-lg shadow-xl transition-all duration-300"
+        className="relative w-20 h-28 rounded-lg shadow-xl"
         style={{
+          ...baseStyle,
           background: "linear-gradient(135deg, #1a365d 0%, #2c5282 50%, #1a365d 100%)",
-          transform: `translateX(${index * -40}px)`,
         }}
       >
         <div className="absolute inset-2 rounded border-2 border-white/20 flex items-center justify-center">
@@ -858,8 +875,8 @@ function PlayingCard({ card, index = 0 }: { card: Card; index?: number }) {
 
   return (
     <div
-      className="relative w-20 h-28 bg-white rounded-lg shadow-xl transition-all duration-300"
-      style={{ transform: `translateX(${index * -40}px)` }}
+      className="relative w-20 h-28 bg-white rounded-lg shadow-xl"
+      style={baseStyle}
     >
       <div className="absolute inset-1 flex flex-col justify-between p-1">
         <div className={`text-left ${SUIT_COLORS[card.suit]}`}>
@@ -906,7 +923,7 @@ function BlackjackChipSelector({ selectedChip, onSelect, balance }: { selectedCh
   );
 }
 
-type BlackjackGameState = "betting" | "playing" | "dealerTurn" | "finished";
+type BlackjackGameState = "betting" | "dealing" | "playing" | "dealerTurn" | "finished";
 
 function BlackjackGame() {
   const [balance, setBalance] = useState(1000);
@@ -938,42 +955,76 @@ function BlackjackGame() {
     if (bet === 0) return;
 
     const newDeck = shuffleDeck(createDeck());
-    const pHand = [newDeck[0], newDeck[2]];
-    const dHand = [newDeck[1], { ...newDeck[3], hidden: true }];
-
     setDeck(newDeck.slice(4));
-    setPlayerHand(pHand);
-    setDealerHand(dHand);
-    setGameState("playing");
-    setMessage("Tu turno");
+    setPlayerHand([]);
+    setDealerHand([]);
+    setGameState("dealing");
+    setMessage("Repartiendo...");
     setLastWin(null);
 
-    // Check for player blackjack
-    if (isBlackjack(pHand)) {
-      setTimeout(() => {
-        const revealedDealerHand = dHand.map(c => ({ ...c, hidden: false }));
-        setDealerHand(revealedDealerHand);
+    // Deal cards one by one: player, dealer, player, dealer (hidden)
+    const dealSequence = [
+      { target: "player", card: { ...newDeck[0], isNew: true } },
+      { target: "dealer", card: { ...newDeck[1], isNew: true } },
+      { target: "player", card: { ...newDeck[2], isNew: true } },
+      { target: "dealer", card: { ...newDeck[3], hidden: true, isNew: true } },
+    ];
 
-        if (isBlackjack(revealedDealerHand)) {
-          setMessage("¡Empate! Ambos tienen Blackjack");
-          setBalance(b => b + bet);
-          setLastWin(0);
+    let playerCards: Card[] = [];
+    let dealerCards: Card[] = [];
+
+    dealSequence.forEach((deal, i) => {
+      setTimeout(() => {
+        if (deal.target === "player") {
+          playerCards = [...playerCards, deal.card];
+          setPlayerHand([...playerCards]);
         } else {
-          const winAmount = Math.floor(bet * 2.5);
-          setMessage("¡BLACKJACK! ¡Ganaste!");
-          setBalance(b => b + winAmount);
-          setLastWin(winAmount - bet);
+          dealerCards = [...dealerCards, deal.card];
+          setDealerHand([...dealerCards]);
         }
-        setGameState("finished");
-      }, 500);
-    }
+
+        // After last card is dealt
+        if (i === dealSequence.length - 1) {
+          setTimeout(() => {
+            // Remove isNew flags
+            const finalPlayerHand = playerCards.map(c => ({ ...c, isNew: false }));
+            const finalDealerHand = dealerCards.map(c => ({ ...c, isNew: false }));
+            setPlayerHand(finalPlayerHand);
+            setDealerHand(finalDealerHand);
+
+            // Check for player blackjack
+            if (isBlackjack(finalPlayerHand)) {
+              setTimeout(() => {
+                const revealedDealerHand = finalDealerHand.map(c => ({ ...c, hidden: false }));
+                setDealerHand(revealedDealerHand);
+
+                if (isBlackjack(revealedDealerHand)) {
+                  setMessage("¡Empate! Ambos tienen Blackjack");
+                  setBalance(b => b + bet);
+                  setLastWin(0);
+                } else {
+                  const winAmount = Math.floor(bet * 2.5);
+                  setMessage("¡BLACKJACK! ¡Ganaste!");
+                  setBalance(b => b + winAmount);
+                  setLastWin(winAmount - bet);
+                }
+                setGameState("finished");
+              }, 500);
+            } else {
+              setGameState("playing");
+              setMessage("Tu turno");
+            }
+          }, 300);
+        }
+      }, i * 350);
+    });
   };
 
   const hit = () => {
     if (gameState !== "playing" || deck.length === 0) return;
 
-    const newCard = deck[0];
-    const newHand = [...playerHand, newCard];
+    const newCard = { ...deck[0], isNew: true };
+    const newHand = [...playerHand.map(c => ({ ...c, isNew: false })), newCard];
     setPlayerHand(newHand);
     setDeck(deck.slice(1));
 
@@ -1003,7 +1054,8 @@ function BlackjackGame() {
       const dealerVal = calculateHandValue(currentHand);
 
       if (dealerVal < 17 && currentDeck.length > 0) {
-        currentHand = [...currentHand, { ...currentDeck[0], hidden: false }];
+        const newCard = { ...currentDeck[0], hidden: false, isNew: true };
+        currentHand = [...currentHand.map(c => ({ ...c, isNew: false })), newCard];
         currentDeck = currentDeck.slice(1);
         setDealerHand([...currentHand]);
         setDeck([...currentDeck]);
@@ -1070,7 +1122,8 @@ function BlackjackGame() {
           const dealerVal = calculateHandValue(currentHand);
 
           if (dealerVal < 17 && currentDeck.length > 0) {
-            currentHand = [...currentHand, { ...currentDeck[0], hidden: false }];
+            const newCard = { ...currentDeck[0], hidden: false, isNew: true };
+            currentHand = [...currentHand.map(c => ({ ...c, isNew: false })), newCard];
             currentDeck = currentDeck.slice(1);
             setDealerHand([...currentHand]);
             setDeck([...currentDeck]);
@@ -1147,12 +1200,12 @@ function BlackjackGame() {
         <div className="bg-gradient-to-b from-green-800/50 to-green-900/50 rounded-3xl p-8 border-8 border-amber-900/80 shadow-2xl">
           {/* Dealer Section */}
           <div className="text-center mb-8">
-            <p className="text-white/60 text-sm mb-2">Crupier {gameState !== "betting" && `(${dealerHand.some(c => c.hidden) ? "?" : dealerValue})`}</p>
+            <p className="text-white/60 text-sm mb-2">Crupier {gameState !== "betting" && gameState !== "dealing" && `(${dealerHand.some(c => c.hidden) ? "?" : dealerValue})`}</p>
             <div className="flex justify-center min-h-[112px]">
               {dealerHand.length > 0 ? (
                 <div className="flex" style={{ marginLeft: `${(dealerHand.length - 1) * 20}px` }}>
                   {dealerHand.map((card, i) => (
-                    <PlayingCard key={i} card={card} index={i} />
+                    <PlayingCard key={i} card={card} index={i} isDealer />
                   ))}
                 </div>
               ) : (
@@ -1190,7 +1243,7 @@ function BlackjackGame() {
                 <div className="w-20 h-28 border-2 border-dashed border-white/20 rounded-lg" />
               )}
             </div>
-            <p className="text-white/60 text-sm">Tu mano {gameState !== "betting" && `(${playerValue})`}</p>
+            <p className="text-white/60 text-sm">Tu mano {gameState !== "betting" && gameState !== "dealing" && `(${playerValue})`}</p>
           </div>
         </div>
 
@@ -1223,6 +1276,14 @@ function BlackjackGame() {
                     </button>
                   </>
                 )}
+              </div>
+            </div>
+          )}
+
+          {gameState === "dealing" && (
+            <div className="flex justify-center">
+              <div className="px-8 py-3 bg-black/40 text-white/60 font-bold rounded-lg animate-pulse">
+                Repartiendo cartas...
               </div>
             </div>
           )}
